@@ -1,0 +1,11 @@
+
+get http://localhost:8080/
+
+###
+get http://localhost:8080/api/languages
+
+###
+post http://localhost:8080/api/languages/
+content-type: application/json
+
+{ "name": "Finnish" }
