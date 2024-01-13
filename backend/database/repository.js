@@ -23,6 +23,19 @@ const connectionFunctions = {
     });
   },
 
+  deleteLanguageById: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "DELETE FROM languages WHERE id = ?", [id], (error, results) => {
+          if (error) {
+            reject(error);
+          }
+          resolve("Deleted language with id: " + id);
+        }
+      );
+    });
+  },
+
   saveLanguage: (language) => {
     return new Promise((resolve, reject) => {
       //Get id numbers for database
