@@ -5,6 +5,9 @@ get http://localhost:8080/
 get http://localhost:8080/api/languages
 
 ###
+delete http://localhost:8080/api/languages/3
+
+###
 post http://localhost:8080/api/languages/
 content-type: application/json
 
