@@ -45,7 +45,7 @@ const connectionFunctions = {
 
           connection.query(
             "INSERT INTO languages (id, name) VALUES (?, ?)",
-            [newId, language],
+            [newId, language.name],
             (error, results) => {
               if (error) {
                 reject(error);
@@ -53,7 +53,7 @@ const connectionFunctions = {
               }
               resolve({
                 id: newId,
-                name: language,
+                name: language.name,
               });
             }
           );
@@ -62,9 +62,9 @@ const connectionFunctions = {
     });
   },
 
-  returnAll: () => {
+  returnAllLanguages: () => {
     return new Promise((resolve, reject) => {
-      const sentence = "SELECT * FROM translations";
+      const sentence = "SELECT * FROM languages";
       connection.query(sentence, (error, results) => {
         if (error) {
           reject(error);
