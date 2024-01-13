@@ -14,4 +14,15 @@ languagesRouter.post("/", async (req, res) => {
   res.status(201).json(newLanguage);
 });
 
+languagesRouter.delete("/:myId([0-9]+)", async(req, res) => {
+  const id = parseInt(req.params.myId);
+  console.log(id);
+  try {
+    await database.deleteLanguageById(id);
+    res.status(204).end();
+  } catch {
+    res.status(404).end();
+  }
+});
+
 module.exports = languagesRouter;
