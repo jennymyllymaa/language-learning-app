@@ -23,6 +23,45 @@ const connectionFunctions = {
     });
   },
 
+  saveLanguage: (language) => {
+    return new Promise((resolve, reject) => {
+      //Get id numbers for database
+      connection.query(
+        "SELECT id FROM languages ORDER BY id ASC",
+        (error, results) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+
+          //Assign first free id as the newId
+          let newId = 1;
+          for (const row of results) {
+            if (newId < row.id) {
+              break;
+            }
+            newId++;
+          }
+
+          connection.query(
+            "INSERT INTO languages (id, name) VALUES (?, ?)",
+            [newId, language],
+            (error, results) => {
+              if (error) {
+                reject(error);
+                return;
+              }
+              resolve({
+                id: newId,
+                name: language,
+              });
+            }
+          );
+        }
+      );
+    });
+  },
+
   returnAll: () => {
     return new Promise((resolve, reject) => {
       const sentence = "SELECT * FROM translations";
