@@ -23,24 +23,23 @@ const connectionFunctions = {
     });
   },
 
-  deleteLanguageById: (id) => {
+  returnAllWords: () => {
     return new Promise((resolve, reject) => {
-      connection.query(
-        "DELETE FROM languages WHERE id = ?", [id], (error, results) => {
-          if (error) {
-            reject(error);
-          }
-          resolve("Deleted language with id: " + id);
+      const sentence = "SELECT * FROM words";
+      connection.query(sentence, (error, results) => {
+        if (error) {
+          reject(error);
         }
-      );
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
     });
   },
 
-  saveLanguage: (language) => {
+  saveWord: (newWord) => {
     return new Promise((resolve, reject) => {
       //Get id numbers for database
       connection.query(
-        "SELECT id FROM languages ORDER BY id ASC",
+        "SELECT id FROM words ORDER BY id ASC",
         (error, results) => {
           if (error) {
             reject(error);
@@ -57,8 +56,8 @@ const connectionFunctions = {
           }
 
           connection.query(
-            "INSERT INTO languages (id, name) VALUES (?, ?)",
-            [newId, language.name],
+            "INSERT INTO words (id, tag, english, finnish, swedish) VALUES (?, ?, ?, ?, ?)",
+            [newId, newWord.tag, newWord.englishWord, newWord.finnishWord, newWord.swedishWord],
             (error, results) => {
               if (error) {
                 reject(error);
@@ -66,7 +65,10 @@ const connectionFunctions = {
               }
               resolve({
                 id: newId,
-                name: language.name,
+                tag: newWord.tag,
+                english: newWord.englishWord,
+                finnish: newWord.finnishWord,
+                swedish: newWord.swedishWord,
               });
             }
           );
@@ -75,15 +77,18 @@ const connectionFunctions = {
     });
   },
 
-  returnAllLanguages: () => {
+  deleteWordById: (id) => {
     return new Promise((resolve, reject) => {
-      const sentence = "SELECT * FROM languages";
-      connection.query(sentence, (error, results) => {
-        if (error) {
-          reject(error);
+      connection.query(
+        "DELETE FROM words WHERE id = ?",
+        [id],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          }
+          resolve("Deleted word with id: " + id);
         }
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+      );
     });
   },
 };
