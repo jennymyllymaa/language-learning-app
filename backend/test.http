@@ -2,13 +2,19 @@
 get http://localhost:8080/
 
 ###
-get http://localhost:8080/api/languages
+get http://localhost:8080/api/words
 
 ###
-delete http://localhost:8080/api/languages/3
+delete http://localhost:8080/api/words/2
 
 ###
-post http://localhost:8080/api/languages/
+post http://localhost:8080/api/words/
 content-type: application/json
 
-{ "name": "Finnish" }
+{ "tag": "animal", "englishWord": "dog", "finnishWord": "koira", "swedishWord": "en hund" }
+
+###
+post http://localhost:8080/api/words/
+content-type: application/json
+
+{ "tag": null, "englishWord": "cat", "finnishWord": "kissa", "swedishWord": null }
