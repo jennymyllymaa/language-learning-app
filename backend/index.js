@@ -7,7 +7,7 @@ const app = express();
 var cors = require("cors");
 app.use(cors());
 const port = 8080;
-const languagesRouter = require("./routes/languages");
+const wordsRouter = require("./routes/words");
 const connectionFunctions = require("./database/repository");
 app.use(express.json());
 
@@ -18,7 +18,7 @@ connectionFunctions
   .then(() => {
     console.log("MySQL connection successful.");
 
-    app.use("/api/languages", languagesRouter);
+    app.use("/api/words", wordsRouter);
 
     server = app
       .listen(port, () => {
