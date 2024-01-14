@@ -6,6 +6,8 @@ const express = require("express");
 const app = express();
 var cors = require("cors");
 app.use(cors());
+//When frontend has been built
+//app.use(express.static("./frontend/dist"));
 const port = 8080;
 const wordsRouter = require("./routes/words");
 const connectionFunctions = require("./database/repository");
