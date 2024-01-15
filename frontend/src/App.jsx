@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import StudentView from "./StudentView.jsx";
+import TeacherView from "./TeacherView.jsx";
 
 function App() {
   const [words, setWords] = useState([]);
@@ -14,11 +17,35 @@ function App() {
   let wordsArr = words.map((word) => <li key={word.id}>{word.english} - {word.finnish}</li>);
 
   return (
-    <div>
-      <p>Hello</p>
-      <div>{wordsArr}</div>
-      <button onClick={testifetch}>testi</button>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <h1>Learn Languages</h1>
+
+        <div className="mainNavigation">
+          <div>
+            <Link to="/">
+              <button>Student</button>
+            </Link>
+            <Link to="teacher">
+              <button>Teacher</button>
+            </Link>
+          </div>
+        </div>
+
+          <div>
+            <p>Hello</p>
+            <div>{wordsArr}</div>
+            <button onClick={testifetch}>testi</button>
+          </div>
+
+          <div>
+            <Routes>
+              <Route path="/" element={<StudentView />} />
+              <Route path="/teacher" element={<TeacherView />} />
+            </Routes>
+          </div>
+        </div>
+    </BrowserRouter>
   );
 }
 
