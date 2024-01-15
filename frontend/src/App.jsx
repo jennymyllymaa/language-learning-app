@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import StudentView from "./StudentView.jsx";
-import TeacherView from "./TeacherView.jsx";
+import StudentView from "./components/StudentView.jsx";
+import TeacherView from "./components/TeacherView.jsx";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+
 
 function App() {
   const [words, setWords] = useState([]);
