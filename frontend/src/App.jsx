@@ -7,8 +7,9 @@ import Container from "@mui/material/Container";
 function App() {
   //All words from the database
   const [words, setWords] = useState([]);
-  //Currently used language with {fromLanguage, toLanguage}
-  const [languages, setLanguages] = useState({});
+  //Currently used languages,  default is from English to Finnish
+  const [fromLanguage, setFromLanguage] = useState("English");
+  const [toLanguage, setToLanguage] = useState("Finnish");
   //List of words in the current test with {question, answer}
   const [practiseWords, setPractiseWords] = useState([]);
 
@@ -16,12 +17,15 @@ function App() {
     words,
     practiseWords,
     setPractiseWords,
-    languages,
-    setLanguages
+    fromLanguage,
+    setFromLanguage,
+    toLanguage,
+    setToLanguage
   };
 
   const propsToStudentView = {
-    languages,
+    fromLanguage,
+    toLanguage,
     practiseWords
   };
 
@@ -46,7 +50,7 @@ function App() {
               <Link to="/">
                 <button>Student</button>
               </Link>
-              <Link to="teacher">
+              <Link to="/teacher">
                 <button>Teacher</button>
               </Link>
             </div>

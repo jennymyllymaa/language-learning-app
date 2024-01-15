@@ -4,8 +4,8 @@ const express = require("express");
 const wordsRouter = express.Router();
 
 wordsRouter.get("/", async (req, res) => {
-  const languages = await database.returnAllWords();
-  res.json(languages);
+  const words = await database.returnAllWords();
+  res.json(words);
 });
 
 wordsRouter.post("/", async (req, res) => {
