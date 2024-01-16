@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import Container from "@mui/material/Container";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import StudentView from "./components/StudentView.jsx";
 import TeacherView from "./components/TeacherView.jsx";
-import Container from "@mui/material/Container";
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 
 function App() {
   //All words from the database
@@ -20,13 +21,13 @@ function App() {
     fromLanguage,
     setFromLanguage,
     toLanguage,
-    setToLanguage
+    setToLanguage,
   };
 
   const propsToStudentView = {
     fromLanguage,
     toLanguage,
-    practiseWords
+    practiseWords,
   };
 
   //Function to fetch all words from backend and set them to words state
@@ -37,12 +38,22 @@ function App() {
   };
 
   //Use fetchWords on the first render
-  useEffect(() => {fetchWords()}, []);
+  useEffect(() => {
+    fetchWords();
+  }, []);
 
   return (
     <BrowserRouter>
       <Container maxWidth="md">
         <div className="App">
+          <AppBar>
+            <Toolbar>
+              <Typography>Learn Languages</Typography>
+              <Button sx={{ marginLeft: "auto" }} variant="contained" color="info">
+                Teacher
+              </Button>
+            </Toolbar>
+          </AppBar>
           <h1>Learn Languages</h1>
 
           <div className="mainNavigation">
@@ -58,7 +69,10 @@ function App() {
 
           <div>
             <Routes>
-              <Route path="/" element={<StudentView {...propsToStudentView} />} />
+              <Route
+                path="/"
+                element={<StudentView {...propsToStudentView} />}
+              />
               <Route
                 path="/teacher"
                 element={<TeacherView {...propsToTeacherView} />}
@@ -71,4 +85,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

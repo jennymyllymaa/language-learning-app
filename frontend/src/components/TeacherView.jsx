@@ -6,6 +6,9 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import Divider from "@mui/material/Divider";
 
 function TeacherView(props) {
   //State that holdds the available words pairs for selected languages as {question, answer}
@@ -35,10 +38,41 @@ function TeacherView(props) {
 
   //Function that uses languages to fetch available wordpairs from backend and set those to availableWords
 
+
   return (
     <div>
-      <Box>
-        <button>Choose languages</button>
+      <AppBar>
+        <Toolbar>
+          <Typography variant="h4">Learn Languages</Typography>
+          <Stack
+            direction="row"
+            spacing={2}
+            divider={<Divider orientation="vertical" flexItem />}
+            sx={{ marginLeft: "30px" }}
+          >
+            <Button variant="text" color="info" style={{ color: "white" }}>
+              Test
+            </Button>
+            <Button variant="text" color="info" style={{ color: "white" }}>
+              Edit test
+            </Button>
+            <Button variant="text" color="info" style={{ color: "white" }}>
+              Word list
+            </Button>
+          </Stack>
+
+          <Stack direction="row" sx={{ marginLeft: "auto" }} spacing={2}>
+            <Button variant="contained" color="info">
+              Student
+            </Button>
+            <Button variant="contained" color="info">
+              Log out
+            </Button>
+          </Stack>
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ marginTop: "20px" }}>
+        <Typography>Choose languages</Typography>
 
         <FormControl sx={{ m: 1, minWidth: 120 }}>
           <InputLabel>From</InputLabel>
@@ -54,13 +88,17 @@ function TeacherView(props) {
         </FormControl>
 
         <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel>From</InputLabel>
+          <InputLabel>To</InputLabel>
           <Select
             value={props.toLanguage}
-            label="From"
+            label="To"
             onChange={handleChangeToLanguage}
           >
-            {availableLanguages.map((language) => (<MenuItem key={language} value={language}>{language}</MenuItem>))}
+            {availableLanguages.map((language) => (
+              <MenuItem key={language} value={language}>
+                {language}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 
