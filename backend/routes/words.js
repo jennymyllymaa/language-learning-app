@@ -23,4 +23,14 @@ wordsRouter.delete("/:myId([0-9]+)", async (req, res) => {
   }
 });
 
+wordsRouter.put("/", async (req, res) => {
+
+  try {
+    const updatedWord = await database.updateWord(req.body);
+    res.json(updatedWord);
+  } catch {
+    res.status(404).end();
+  }
+});
+
 module.exports = wordsRouter;

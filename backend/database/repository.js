@@ -101,6 +101,21 @@ const connectionFunctions = {
       );
     });
   },
+
+  updateWord: (newRow) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE words SET tag = ?, english = ?, finnish = ?, swedish = ?, german = ?, italian = ? WHERE id = ?;",
+        [newRow.tag, newRow.english, newRow.finnish, newRow.swedish, newRow.german, newRow.italian, newRow.id],
+        (error, resuts) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(newRow);
+        }
+      )
+    });
+  }
 };
 
 module.exports = connectionFunctions;

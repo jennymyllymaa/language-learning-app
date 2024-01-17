@@ -24,3 +24,9 @@ post http://localhost:8080/api/words/
 content-type: application/json
 
 { "tag": null, "englishWord": "apple", "finnishWord": "omena", "swedishWord": "äpple", "germanWord": "apfel", "italianWord": "mela" }
+
+###
+put http://localhost:8080/api/words/
+content-type: application/json
+
+{ "id": 3, "tag": null, "english": "apple", "finnish": "omena", "swedish": "äpple", "german": "testing", "italian": "mela"}
