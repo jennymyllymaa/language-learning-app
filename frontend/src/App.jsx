@@ -14,23 +14,6 @@ function App() {
   //List of words in the current test with {question, answer}
   const [testWords, setTestWords] = useState([]);
 
-  const propsToTeacherView = {
-    words,
-    setWords,
-    testWords,
-    setTestWords,
-    fromLanguage,
-    setFromLanguage,
-    toLanguage,
-    setToLanguage,
-  };
-
-  const propsToStudentView = {
-    fromLanguage,
-    toLanguage,
-    practiseWords: testWords,
-  };
-
   //Function to fetch all words from backend and set them to words state
   const fetchWords = async () => {
     let hr = await fetch(`${import.meta.env.VITE_API_URL}/api/words`);
@@ -43,6 +26,24 @@ function App() {
   useEffect(() => {
     fetchWords();
   }, []);
+
+    const propsToTeacherView = {
+      fetchWords,
+      words,
+      setWords,
+      testWords,
+      setTestWords,
+      fromLanguage,
+      setFromLanguage,
+      toLanguage,
+      setToLanguage,
+    };
+
+    const propsToStudentView = {
+      fromLanguage,
+      toLanguage,
+      practiseWords: testWords,
+    };
 
   return (
     <BrowserRouter>

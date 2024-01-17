@@ -35,6 +35,7 @@ function TeacherView(props) {
 
   const propsToWordList = {
     words: props.words,
+    fetchWords: props.fetchWords,
   };
 
   return (
