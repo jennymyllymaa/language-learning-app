@@ -18,3 +18,9 @@ post http://localhost:8080/api/words/
 content-type: application/json
 
 { "tag": null, "englishWord": "cat", "finnishWord": "kissa", "swedishWord": null }
+
+###
+post http://localhost:8080/api/words/
+content-type: application/json
+
+{ "tag": null, "englishWord": "apple", "finnishWord": "omena", "swedishWord": "äpple", "germanWord": "apfel", "italianWord": "mela" }

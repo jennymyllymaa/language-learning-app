@@ -56,8 +56,16 @@ const connectionFunctions = {
           }
 
           connection.query(
-            "INSERT INTO words (id, tag, english, finnish, swedish) VALUES (?, ?, ?, ?, ?)",
-            [newId, newWord.tag, newWord.englishWord, newWord.finnishWord, newWord.swedishWord],
+            "INSERT INTO words (id, tag, english, finnish, swedish, german, italian) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            [
+              newId,
+              newWord.tag,
+              newWord.englishWord,
+              newWord.finnishWord,
+              newWord.swedishWord,
+              newWord.germanWord,
+              newWord.italianWord,
+            ],
             (error, results) => {
               if (error) {
                 reject(error);
@@ -69,6 +77,8 @@ const connectionFunctions = {
                 english: newWord.englishWord,
                 finnish: newWord.finnishWord,
                 swedish: newWord.swedishWord,
+                german: newWord.germanWord,
+                italian: newWord.italianWord,
               });
             }
           );
