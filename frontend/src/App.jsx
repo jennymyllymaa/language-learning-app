@@ -12,12 +12,13 @@ function App() {
   const [fromLanguage, setFromLanguage] = useState("English");
   const [toLanguage, setToLanguage] = useState("Finnish");
   //List of words in the current test with {question, answer}
-  const [practiseWords, setPractiseWords] = useState([]);
+  const [testWords, setTestWords] = useState([]);
 
   const propsToTeacherView = {
     words,
-    practiseWords,
-    setPractiseWords,
+    setWords,
+    testWords,
+    setTestWords,
     fromLanguage,
     setFromLanguage,
     toLanguage,
@@ -27,7 +28,7 @@ function App() {
   const propsToStudentView = {
     fromLanguage,
     toLanguage,
-    practiseWords,
+    practiseWords: testWords,
   };
 
   //Function to fetch all words from backend and set them to words state
@@ -35,6 +36,7 @@ function App() {
     let hr = await fetch(`${import.meta.env.VITE_API_URL}/api/words`);
     let data = await hr.json();
     setWords(data);
+    console.log(data);
   };
 
   //Use fetchWords on the first render
@@ -46,14 +48,14 @@ function App() {
     <BrowserRouter>
       <Container maxWidth="md">
         <div className="App">
-          <AppBar>
+          {/* <AppBar>
             <Toolbar>
               <Typography>Learn Languages</Typography>
               <Button sx={{ marginLeft: "auto" }} variant="contained" color="info">
                 Teacher
               </Button>
             </Toolbar>
-          </AppBar>
+          </AppBar> */}
           <h1>Learn Languages</h1>
 
           <div className="mainNavigation">

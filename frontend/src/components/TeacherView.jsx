@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -29,7 +29,12 @@ function TeacherView(props) {
 
   const propsToEditTest = {
     changeFromLanguage,
-    changeToLanguage
+    changeToLanguage,
+    words: props.words,
+  };
+
+  const propsToWordList = {
+    words: props.words,
   };
 
   return (
@@ -43,7 +48,14 @@ function TeacherView(props) {
             divider={<Divider orientation="vertical" flexItem />}
             sx={{ marginLeft: "30px" }}
           >
-            <Button variant="text" color="info" style={{ color: "white" }}>
+            <Button
+              variant="text"
+              color="info"
+              style={{ color: "white" }}
+              onClick={() => {
+                setShowing("currentTest");
+              }}
+            >
               Test
             </Button>
             <Button
@@ -56,7 +68,14 @@ function TeacherView(props) {
             >
               Edit test
             </Button>
-            <Button variant="text" color="info" style={{ color: "white" }}>
+            <Button
+              variant="text"
+              color="info"
+              style={{ color: "white" }}
+              onClick={() => {
+                setShowing("wordList");
+              }}
+            >
               Word list
             </Button>
           </Stack>
@@ -74,7 +93,7 @@ function TeacherView(props) {
       <Box sx={{ marginTop: "20px" }}>
         {showing == "currentTest" && <CurrentTest />}
         {showing == "editTest" && <EditTest {...propsToEditTest} />}
-        {showing == "wordList" && <WordList />}
+        {showing == "wordList" && <WordList {...propsToWordList} />}
         {/* <Typography>Choose languages</Typography>
 
         <FormControl sx={{ m: 1, minWidth: 120 }}>
