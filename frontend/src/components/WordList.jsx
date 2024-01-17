@@ -6,16 +6,15 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Typography } from "@mui/material";
 
-function CurrentTest(props) {
+function WordList(props) {
   return (
     <Grid
       container
       direction="column"
       justifyContent="center"
       alignItems="center"
-    >
-    </Grid>
+    ></Grid>
   );
 }
 
-export default CurrentTest;
+export default WordList;

@@ -9,35 +9,28 @@ import Select from "@mui/material/Select";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
+import CurrentTest from "./CurrentTest";
+import EditTest from "./EditTest";
+import WordList from "./WordList";
 
 function TeacherView(props) {
-  //State that holdds the available words pairs for selected languages as {question, answer}
-  const [availableWords, setAvailableWords] = useState([]);
-  //Array that hold all languages from backend
-  const [availableLanguages, setAvailableLanguages] = useState(["English", "Finnish", "Swedish"]);
-  const originalLanguages = ["English", "Finnish", "Swedish"];
+  const [showing, setShowing] = useState("currentTest");
 
   //Function that sets selected question language to state and removes the language from answer language options
-  const handleChangeFromLanguage = (event) => {
-    props.setFromLanguage(event.target.value);
-
-    const updatedLanguages = [...originalLanguages];
-
-    for (let i = 0; i < updatedLanguages.length; i++) {
-      if (updatedLanguages[i] === event.target.value) {
-        updatedLanguages.splice(i, 1);
-        break;
-      }
-    }
-    setAvailableLanguages(updatedLanguages);
+  const changeFromLanguage = (language) => {
+    props.setFromLanguage(language);
   };
 
-  const handleChangeToLanguage = (event) => {
-    props.setToLanguage(event.target.value);
+  const changeToLanguage = (language) => {
+    props.setToLanguage(language);
   };
 
   //Function that uses languages to fetch available wordpairs from backend and set those to availableWords
 
+  const propsToEditTest = {
+    changeFromLanguage,
+    changeToLanguage
+  };
 
   return (
     <div>
@@ -53,7 +46,14 @@ function TeacherView(props) {
             <Button variant="text" color="info" style={{ color: "white" }}>
               Test
             </Button>
-            <Button variant="text" color="info" style={{ color: "white" }}>
+            <Button
+              variant="text"
+              color="info"
+              style={{ color: "white" }}
+              onClick={() => {
+                setShowing("editTest");
+              }}
+            >
               Edit test
             </Button>
             <Button variant="text" color="info" style={{ color: "white" }}>
@@ -72,7 +72,10 @@ function TeacherView(props) {
         </Toolbar>
       </AppBar>
       <Box sx={{ marginTop: "20px" }}>
-        <Typography>Choose languages</Typography>
+        {showing == "currentTest" && <CurrentTest />}
+        {showing == "editTest" && <EditTest {...propsToEditTest} />}
+        {showing == "wordList" && <WordList />}
+        {/* <Typography>Choose languages</Typography>
 
         <FormControl sx={{ m: 1, minWidth: 120 }}>
           <InputLabel>From</InputLabel>
@@ -104,7 +107,7 @@ function TeacherView(props) {
 
         <button>Choose words</button>
         <ul>{props.practiseWords}</ul>
-        <button>Save</button>
+        <button>Save</button> */}
       </Box>
     </div>
   );
