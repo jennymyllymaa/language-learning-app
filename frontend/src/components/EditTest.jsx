@@ -14,8 +14,10 @@ function EditTest(props) {
     "English",
     "Finnish",
     "Swedish",
+    "German",
+    "Italian"
   ]);
-  const originalLanguages = ["English", "Finnish", "Swedish"];
+  const originalLanguages = ["English", "Finnish", "Swedish", "German", "Italian"];
 
   //Function that sets selected question language to state and removes the language from answer language options
   const handleChangeFromLanguage = (event) => {

@@ -1,7 +1,8 @@
+import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -38,9 +39,16 @@ function TeacherView(props) {
     fetchWords: props.fetchWords,
   };
 
+  const propsToCurrentTest = {
+    fetchTests: props.fetchTests,
+    currentTest: props.currentTest,
+    setCurrentTest: props.setCurrentTest,
+    currentTestWords: props.currentTestWords,
+  };
+
   return (
     <div>
-      <AppBar>
+      <AppBar position="static">
         <Toolbar>
           <Typography variant="h4">Learn Languages</Typography>
           <Stack
@@ -91,44 +99,13 @@ function TeacherView(props) {
           </Stack>
         </Toolbar>
       </AppBar>
-      <Box sx={{ marginTop: "20px" }}>
-        {showing == "currentTest" && <CurrentTest />}
-        {showing == "editTest" && <EditTest {...propsToEditTest} />}
-        {showing == "wordList" && <WordList {...propsToWordList} />}
-        {/* <Typography>Choose languages</Typography>
-
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel>From</InputLabel>
-          <Select
-            value={props.fromLanguage}
-            label="From"
-            onChange={handleChangeFromLanguage}
-          >
-            <MenuItem value={"English"}>English</MenuItem>
-            <MenuItem value={"Finnish"}>Finnish</MenuItem>
-            <MenuItem value={"Swedish"}>Swedish</MenuItem>
-          </Select>
-        </FormControl>
-
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel>To</InputLabel>
-          <Select
-            value={props.toLanguage}
-            label="To"
-            onChange={handleChangeToLanguage}
-          >
-            {availableLanguages.map((language) => (
-              <MenuItem key={language} value={language}>
-                {language}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <button>Choose words</button>
-        <ul>{props.practiseWords}</ul>
-        <button>Save</button> */}
-      </Box>
+      <Container maxWidth="md">
+        <Box sx={{ marginTop: "20px" }}>
+          {showing == "currentTest" && <CurrentTest {...propsToCurrentTest} />}
+          {showing == "editTest" && <EditTest {...propsToEditTest} />}
+          {showing == "wordList" && <WordList {...propsToWordList} />}
+        </Box>
+      </Container>
     </div>
   );
 }
