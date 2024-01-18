@@ -30,3 +30,12 @@ put http://localhost:8080/api/words/
 content-type: application/json
 
 { "id": 3, "tag": null, "english": "apple", "finnish": "omena", "swedish": "äpple", "german": "testing", "italian": "mela"}
+
+###
+get http://localhost:8080/api/tests
+
+###
+post http://localhost:8080/api/tests/
+content-type: application/json
+
+{ "name": "current_test", "from_language": "english", "to_language": "finnish", "words": [{ "from_word": "dog", "to_word": "koira" }] }

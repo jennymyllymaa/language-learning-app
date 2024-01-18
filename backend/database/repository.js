@@ -37,6 +37,7 @@ const connectionFunctions = {
     });
   },
 
+  // Functions for wordsRouter
   returnAllWords: () => {
     return new Promise((resolve, reject) => {
       const sentence = "SELECT * FROM words";
@@ -122,14 +123,85 @@ const connectionFunctions = {
     return new Promise((resolve, reject) => {
       connection.query(
         "UPDATE words SET tag = ?, english = ?, finnish = ?, swedish = ?, german = ?, italian = ? WHERE id = ?;",
-        [newRow.tag, newRow.english, newRow.finnish, newRow.swedish, newRow.german, newRow.italian, newRow.id],
+        [
+          newRow.tag,
+          newRow.english,
+          newRow.finnish,
+          newRow.swedish,
+          newRow.german,
+          newRow.italian,
+          newRow.id,
+        ],
         (error, resuts) => {
           if (error) {
             reject(error);
           }
           resolve(newRow);
         }
-      )
+      );
+    });
+  },
+
+  //Functions for testsRouter
+  returnAllTestNames: () => {
+    return new Promise((resolve, reject) => {
+      const sentence = "SELECT name FROM tests";
+      connection.query(sentence, (error, results) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  },
+
+  saveTest: (newTestInput) => {
+    console.log(newTestInput);
+    const newTest = checkEmptys(newTestInput);
+    return new Promise((resolve, reject) => {
+      //Get id numbers for database
+      connection.query(
+        "SELECT id FROM tests ORDER BY id ASC",
+        (error, results) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+
+          //Assign first free id as the newId
+          let newId = 1;
+          for (const row of results) {
+            if (newId < row.id) {
+              break;
+            }
+            newId++;
+          }
+
+          connection.query(
+            "INSERT INTO tests (id, name, from_language, to_language, words) VALUES (?, ?, ?, ?, ?)",
+            [
+              newId,
+              newTest.name,
+              newTest.from_language,
+              newTest.to_language,
+              newTest.words
+            ],
+            (error, results) => {
+              if (error) {
+                reject(error);
+                return;
+              }
+              resolve({
+                id: newId,
+                name: newTest.name,
+                from_language: newTest.from_language,
+                to_language: newTest.to_language,
+                words: newTest.words
+              });
+            }
+          );
+        }
+      );
     });
   }
 };
