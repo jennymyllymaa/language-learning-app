@@ -35,7 +35,22 @@ content-type: application/json
 get http://localhost:8080/api/tests
 
 ###
+delete http://localhost:8080/api/tests/1
+
+###
 post http://localhost:8080/api/tests/
+content-type: application/json
+
+{ "name": "current_test", "from_language": "english", "to_language": "finnish", "words": [{ "from_word": "dog", "to_word": "koira" }] }
+
+###
+post http://localhost:8080/api/tests/
+content-type: application/json
+
+{ "name": "test2", "from_language": "english", "to_language": "finnish", "words": [{ "from_word": "dog", "to_word": "koira" }, { "from_word": "cat", "to_word": "kissa" }, { "from_word": "mountain", "to_word": "vuori" }] }
+
+###
+put http://localhost:8080/api/tests/
 content-type: application/json
 
 { "name": "current_test", "from_language": "english", "to_language": "finnish", "words": [{ "from_word": "dog", "to_word": "koira" }] }

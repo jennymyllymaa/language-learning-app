@@ -143,15 +143,36 @@ const connectionFunctions = {
   },
 
   //Functions for testsRouter
-  returnAllTestNames: () => {
+  returnAllTests: () => {
     return new Promise((resolve, reject) => {
-      const sentence = "SELECT name FROM tests";
+      const sentence = "SELECT * FROM tests";
       connection.query(sentence, (error, results) => {
         if (error) {
           reject(error);
         }
-        resolve(JSON.parse(JSON.stringify(results)));
+        const parsedResults = results.map((result) => ({
+          ...result,
+          words: JSON.parse(result.words),
+        }));
+        resolve(parsedResults);
+        //resolve(JSON.parse(JSON.stringify(results)));
       });
+    });
+  },
+
+  deleteTestById: (id) => {
+    console.log(id);
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "DELETE FROM tests WHERE id = ?",
+        [id],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          }
+          resolve("Deleted test with id: " + id);
+        }
+      );
     });
   },
 
@@ -184,7 +205,7 @@ const connectionFunctions = {
               newTest.name,
               newTest.from_language,
               newTest.to_language,
-              newTest.words
+              JSON.stringify(newTest.words),
             ],
             (error, results) => {
               if (error) {
@@ -196,14 +217,14 @@ const connectionFunctions = {
                 name: newTest.name,
                 from_language: newTest.from_language,
                 to_language: newTest.to_language,
-                words: newTest.words
+                words: newTest.words,
               });
             }
           );
         }
       );
     });
-  }
+  },
 };
 
 module.exports = connectionFunctions;
