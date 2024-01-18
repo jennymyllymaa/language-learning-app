@@ -40,6 +40,9 @@ function TeacherView(props) {
   };
 
   const propsToCurrentTest = {
+    fromLanguage: props.fromLanguage,
+    toLanguage: props.toLanguage,
+    words: props.words,
     fetchTests: props.fetchTests,
     currentTest: props.currentTest,
     setCurrentTest: props.setCurrentTest,
@@ -75,7 +78,7 @@ function TeacherView(props) {
                 setShowing("editTest");
               }}
             >
-              Edit test
+              Create new test
             </Button>
             <Button
               variant="text"
