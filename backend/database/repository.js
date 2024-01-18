@@ -1,5 +1,19 @@
 const connection = require("./config.js");
 
+// Function to go through the word received from frontend and replace "" and " " with null
+const checkEmptys = (word) => {
+  const result = {};
+  for (const key in word) {
+    if(word[key] == "" || word[key] == " ") {
+      result[key] = null;
+    }
+    else {
+      result[key] = word[key];
+    }
+  }
+  return result;
+};
+
 const connectionFunctions = {
   connect: () => {
     return new Promise((resolve, reject) => {
@@ -35,7 +49,8 @@ const connectionFunctions = {
     });
   },
 
-  saveWord: (newWord) => {
+  saveWord: (newWordInput) => {
+    const newWord = checkEmptys(newWordInput);
     return new Promise((resolve, reject) => {
       //Get id numbers for database
       connection.query(
@@ -102,7 +117,8 @@ const connectionFunctions = {
     });
   },
 
-  updateWord: (newRow) => {
+  updateWord: (newRowInput) => {
+    const newRow = checkEmptys(newRowInput);
     return new Promise((resolve, reject) => {
       connection.query(
         "UPDATE words SET tag = ?, english = ?, finnish = ?, swedish = ?, german = ?, italian = ? WHERE id = ?;",

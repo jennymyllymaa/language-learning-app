@@ -1,73 +1,60 @@
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { TextareaAutosize, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
-
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { Typography } from "@mui/material";
 
 function WordList(props) {
-  const [addingWord, setAddingWord] = useState(false);
 
   const columns = [
     {
       field: "id",
       headerName: "Id",
       width: 40,
-      //disableClickEventBubbling: true,
     },
     {
       field: "tag",
       headerName: "Tag",
       width: 80,
       editable: true,
-      //disableClickEventBubbling: true,
     },
     {
       field: "english",
       headerName: "English",
       width: 125,
       editable: true,
-      //disableClickEventBubbling: true,
     },
     {
       field: "finnish",
       headerName: "Finnish",
       width: 125,
       editable: true,
-      //disableClickEventBubbling: true,
     },
     {
       field: "swedish",
       headerName: "Swedish",
       width: 125,
       editable: true,
-      //disableClickEventBubbling: true,
     },
     {
       field: "german",
       headerName: "German",
       width: 125,
       editable: true,
-      //disableClickEventBubbling: true,
     },
     {
       field: "italian",
       headerName: "Italian",
       width: 125,
       editable: true,
-      //disableClickEventBubbling: true,
     },
     {
       field: "delete",
@@ -165,22 +152,12 @@ function WordList(props) {
         },
         body: JSON.stringify(word),
       });
-      //const newWordFromBackend = await hr.json();
       // Update words state to rerender
-      //props.fetchWords();
-      //return updatedWordFromBackend;
-      //console.log(newWordFromBackend);
-      //return newWordFromBackend;
+      props.fetchWords();
     } catch (error) {
       console.error("Error saving word.");
     }
   }
-
-  const valiFuntio = async (sana) => {
-    console.log("valifunktio: ", sana);
-    await saveNewWordToBackend(sana);
-    props.fetchWords();
-  };
 
   return (
     <Grid
@@ -213,19 +190,8 @@ function WordList(props) {
         />
       </div>
       <Box>
-        {/* <Button onClick={() => setAddingWord(!addingWord)}>Add word</Button> */}
         <Button onClick={handleClickOpen}>dialogi</Button>
       </Box>
-      {addingWord && (
-        <Grid>
-          <TextField id="outlined-basic" label="Tag" variant="outlined" />
-          <TextField id="outlined-basic" label="English" variant="outlined" />
-          <TextField id="outlined-basic" label="Finnish" variant="outlined" />
-          <TextField id="outlined-basic" label="Swedish" variant="outlined" />
-          <TextField id="outlined-basic" label="German" variant="outlined" />
-          <TextField id="outlined-basic" label="Italian" variant="outlined" />
-        </Grid>
-      )}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -254,8 +220,7 @@ function WordList(props) {
               german: formJson.german,
               italian: formJson.italian
             };
-            //saveNewWordToBackend(newWord);
-            valiFuntio(newWord);
+            saveNewWordToBackend(newWord);
             handleClose();
           },
         }}
