@@ -53,4 +53,4 @@ content-type: application/json
 put http://localhost:8080/api/tests/
 content-type: application/json
 
-{ "name": "current_test", "from_language": "english", "to_language": "finnish", "words": [{ "from_word": "dog", "to_word": "koira" }] }
+{ "id": 2, "name": "current_test", "from_language": "english", "to_language": "finnish", "words": [{ "from_word": "dog", "to_word": "koira" }] }

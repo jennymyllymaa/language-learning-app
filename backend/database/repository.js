@@ -225,6 +225,26 @@ const connectionFunctions = {
       );
     });
   },
+
+  updateCurrentTestRow: (newRow) => {
+    console.log("updatessa");
+    console.log(newRow.id);
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE tests SET words = ? WHERE id = ?;",
+        [
+          JSON.stringify(newRow.words),
+          newRow.id,
+        ],
+        (error, resuts) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(newRow);
+        }
+      );
+    });
+  }
 };
 
 module.exports = connectionFunctions;
