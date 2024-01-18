@@ -10,6 +10,7 @@ app.use(cors());
 //app.use(express.static("./frontend/dist"));
 const port = 8080;
 const wordsRouter = require("./routes/words");
+const testsRouter = require("./routes/tests");
 const connectionFunctions = require("./database/repository");
 app.use(express.json());
 
@@ -21,6 +22,7 @@ connectionFunctions
     console.log("MySQL connection successful.");
 
     app.use("/api/words", wordsRouter);
+    app.use("/api/tests", testsRouter);
 
     server = app
       .listen(port, () => {
