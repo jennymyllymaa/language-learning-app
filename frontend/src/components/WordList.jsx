@@ -9,8 +9,17 @@ import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import TextField from "@mui/material/TextField";
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 function WordList(props) {
+  const [addingWord, setAddingWord] = useState(false);
+
   const columns = [
     {
       field: "id",
@@ -98,9 +107,10 @@ function WordList(props) {
     console.log(row);
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/api/words/${row.id}`, {
-        method: "DELETE"
+        method: "DELETE",
       });
       console.log("deleted");
+      // Update words state to rerender
       props.fetchWords();
     } catch (error) {
       console.error("Error deleting row.");
@@ -118,7 +128,6 @@ function WordList(props) {
 
   // Function to update a word on the backend
   const updateWord = async (updatedWord) => {
-    console.log(updatedWord);
     try {
       const hr = await fetch(`${import.meta.env.VITE_API_URL}/api/words/`, {
         method: "PUT",
@@ -128,15 +137,50 @@ function WordList(props) {
         body: JSON.stringify(updatedWord),
       });
       const updatedWordFromBackend = await hr.json();
-      console.log("Updated word:", updatedWordFromBackend);
+      // Update words state to rerender
       props.fetchWords();
       return updatedWordFromBackend;
     } catch (error) {
-      console.error("Error updating word:");
+      console.error("Error updating word.");
     }
   };
 
+  const [open, setOpen] = useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const saveNewWordToBackend = async (word) => {
+    console.log(word);
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/words/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(word),
+      });
+      //const newWordFromBackend = await hr.json();
+      // Update words state to rerender
+      //props.fetchWords();
+      //return updatedWordFromBackend;
+      //console.log(newWordFromBackend);
+      //return newWordFromBackend;
+    } catch (error) {
+      console.error("Error saving word.");
+    }
+  }
+
+  const valiFuntio = async (sana) => {
+    console.log("valifunktio: ", sana);
+    await saveNewWordToBackend(sana);
+    props.fetchWords();
+  };
 
   return (
     <Grid
@@ -169,8 +213,132 @@ function WordList(props) {
         />
       </div>
       <Box>
-        <Button>Add word</Button>
+        {/* <Button onClick={() => setAddingWord(!addingWord)}>Add word</Button> */}
+        <Button onClick={handleClickOpen}>dialogi</Button>
       </Box>
+      {addingWord && (
+        <Grid>
+          <TextField id="outlined-basic" label="Tag" variant="outlined" />
+          <TextField id="outlined-basic" label="English" variant="outlined" />
+          <TextField id="outlined-basic" label="Finnish" variant="outlined" />
+          <TextField id="outlined-basic" label="Swedish" variant="outlined" />
+          <TextField id="outlined-basic" label="German" variant="outlined" />
+          <TextField id="outlined-basic" label="Italian" variant="outlined" />
+        </Grid>
+      )}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          component: "form",
+          onSubmit: (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.currentTarget);
+            const formJson = Object.fromEntries(formData.entries());
+
+            //Check that at least two inputs (not including tag) has been filled
+            const filledLanguages = Object.entries(formJson).filter(
+              ([key, value]) => key !== "tag" && value.trim() !== ""
+            ).length;
+
+            if (filledLanguages < 2) {
+              alert("Please fill in at least two languages.");
+              return;
+            }
+
+            const newWord = {
+              tag: formJson.tag,
+              english: formJson.english,
+              finnish: formJson.finnish,
+              swedish: formJson.swedish,
+              german: formJson.german,
+              italian: formJson.italian
+            };
+            //saveNewWordToBackend(newWord);
+            valiFuntio(newWord);
+            handleClose();
+          },
+        }}
+      >
+        <DialogTitle>New word</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Add the word on as many languages from these options as you want. You can also add a tag (fruit, animal.. etc).
+          </DialogContentText>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField
+                margin="dense"
+                id="tag"
+                name="tag"
+                label="Tag"
+                type="text"
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                margin="dense"
+                id="english"
+                name="english"
+                label="English"
+                type="text"
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                margin="dense"
+                id="finnish"
+                name="finnish"
+                label="Finnish"
+                type="text"
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                margin="dense"
+                id="swedish"
+                name="swedish"
+                label="Swedish"
+                type="text"
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                margin="dense"
+                id="german"
+                name="german"
+                label="German"
+                type="text"
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                margin="dense"
+                id="italian"
+                name="italian"
+                label="Italian"
+                type="text"
+                fullWidth
+                variant="outlined"
+              />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type="submit">Save</Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 }

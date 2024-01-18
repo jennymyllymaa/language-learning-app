@@ -60,11 +60,11 @@ const connectionFunctions = {
             [
               newId,
               newWord.tag,
-              newWord.englishWord,
-              newWord.finnishWord,
-              newWord.swedishWord,
-              newWord.germanWord,
-              newWord.italianWord,
+              newWord.english,
+              newWord.finnish,
+              newWord.swedish,
+              newWord.german,
+              newWord.italian,
             ],
             (error, results) => {
               if (error) {
@@ -74,11 +74,11 @@ const connectionFunctions = {
               resolve({
                 id: newId,
                 tag: newWord.tag,
-                english: newWord.englishWord,
-                finnish: newWord.finnishWord,
-                swedish: newWord.swedishWord,
-                german: newWord.germanWord,
-                italian: newWord.italianWord,
+                english: newWord.english,
+                finnish: newWord.finnish,
+                swedish: newWord.swedish,
+                german: newWord.german,
+                italian: newWord.italian,
               });
             }
           );
