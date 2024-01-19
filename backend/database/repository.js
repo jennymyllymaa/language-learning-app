@@ -228,7 +228,6 @@ const connectionFunctions = {
    */
   saveTestChanges: (newTestInput) => {
     const newTest = checkEmptys(newTestInput);
-    console.log("repository: ", newTest);
     return new Promise((resolve, reject) => {
       connection.query(
         "UPDATE tests SET name = ?, from_language = ?, to_language = ?, words = ? WHERE id = ?",

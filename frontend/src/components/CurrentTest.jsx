@@ -27,7 +27,7 @@ import Autocomplete from "@mui/material/Autocomplete";
  */
 function CurrentTest(props) {
   /**
-   * Columns for the datagrid, last one is a delete button
+   * Columns for the datagrid, last one is a delete button.
    * @type {array}
    */
   const columns = [

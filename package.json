@@ -1,0 +1,14 @@
+{
+  "name": "language-learning-app",
+  "version": "1.0.0",
+  "description": "An app to learn languages with. Developed for school backend course.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/index.js",
+    "build:frontend": "cd frontend && npm run build",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "nodemon backend/index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
