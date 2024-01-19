@@ -12,10 +12,19 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Typography } from "@mui/material";
 
+/**
+ * React functional component representing the WordList view.
+ * @component
+ * @param {object} props Props passed to the component.
+ * @param {object[]} props.words List of words from the database.
+ * @param {Function} props.fetchWords Function to fetch all words from the backend.
+ * @return {JSX.Element} JSX element representing the WordList view.
+ */
 function WordList(props) {
-
-
-  //Columns and rows for the table
+  /**
+   * Columns for the table. Last one is a delete button for each row.
+   * @type {array}
+   */
   const columns = [
     {
       field: "id",
@@ -76,6 +85,10 @@ function WordList(props) {
     },
   ];
 
+  /**
+   * Rows for the table.
+   * @type {array}
+   */
   const rows = props.words.map((word) => ({
     id: word.id,
     tag: word.tag,
@@ -86,39 +99,63 @@ function WordList(props) {
     italian: word.italian,
   }));
 
-  //onClick function for the delete button on every row
+  /**
+   * Event handler function for the delete button on every row.
+   * @function
+   * @param {object} e The event object.
+   * @param {object} row The row data.
+   */
   const onButtonClick = (e, row) => {
     e.stopPropagation();
     deleteRow(row);
   };
 
-  // Function to delete a word on the backend
+  /**
+   * Function to delete a word on the backend.
+   * Finally use fetchWords to trigger rerender.
+   * @function
+   * @param {object} row The row data.
+   */
   const deleteRow = async (row) => {
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/api/words/${row.id}`, {
         method: "DELETE",
       });
-      console.log("deleted");
-      // Update words state to rerender
       props.fetchWords();
     } catch (error) {
       console.error("Error deleting row.");
     }
   };
 
-  //Function that sends updatedRow for the correct function
-  // and return the row which is necessary for the processRowUpdate
+  /**
+   * Function that sends updatedRow for the correct function
+   * and return the row which is necessary for the processRowUpdate.
+   * @function
+   * @param {object} updatedRow The row data.
+   * @return {object} The updated word data.
+   */
   const saveWordUpdateToBackend = (updatedRow) => {
     const updatedWord = updateWord(updatedRow);
     return updatedWord;
   };
 
-  //Necessary function for the autogrid
+  /**
+   * Necessary function for the autogrid.
+   * @function
+   * @param {Error} error The error object.
+   */
   const handleProcessRowUpdateError = (error) => {
     console.error(error);
   };
 
-  // Function to update a word on the backend
+  /**
+   * Function to update a word on the backend.
+   * In the end use fetchWords to trigger rerender.
+   * @async
+   * @function
+   * @param {object} updatedWord The updated word data.
+   * @return {Promise} Promise representing the completion of the task.
+   */
   const updateWord = async (updatedWord) => {
     try {
       const hr = await fetch(`${import.meta.env.VITE_API_URL}/api/words/`, {
@@ -129,7 +166,6 @@ function WordList(props) {
         body: JSON.stringify(updatedWord),
       });
       const updatedWordFromBackend = await hr.json();
-      // Update words state to rerender
       props.fetchWords();
       return updatedWordFromBackend;
     } catch (error) {
@@ -137,21 +173,36 @@ function WordList(props) {
     }
   };
 
-  //State for the dialog
+  /**
+   * State for the dialog, is it open or closed.
+   * @type {boolean}
+   */
   const [open, setOpen] = useState(false);
 
-  //Dialog open and close functions
+  /**
+   * Function to open dialog.
+   * @function
+   */
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  /**
+   * Function to close dialog.
+   * @function
+   */
   const handleClose = () => {
     setOpen(false);
   };
 
-  //Function that saves the added word to database
+  /**
+   * Function that saves the added word to database
+   * and uses fetchWords to trigger rerender.
+   * @function
+   * @async
+   * @param {object} word The new word data.
+   */
   const saveNewWordToBackend = async (word) => {
-    console.log(word);
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/api/words/`, {
         method: "POST",
@@ -160,12 +211,11 @@ function WordList(props) {
         },
         body: JSON.stringify(word),
       });
-      // Update words state to rerender
       props.fetchWords();
     } catch (error) {
       console.error("Error saving word.");
     }
-  }
+  };
 
   return (
     <Grid
@@ -226,7 +276,7 @@ function WordList(props) {
               finnish: formJson.finnish,
               swedish: formJson.swedish,
               german: formJson.german,
-              italian: formJson.italian
+              italian: formJson.italian,
             };
             saveNewWordToBackend(newWord);
             handleClose();
@@ -236,7 +286,8 @@ function WordList(props) {
         <DialogTitle>New word</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Add the word on as many languages from these options as you want. You can also add a tag (fruit, animal.. etc).
+            Add the word on as many languages from these options as you want.
+            You can also add a tag (fruit, animal.. etc).
           </DialogContentText>
           <Grid container spacing={2}>
             <Grid item xs={6}>

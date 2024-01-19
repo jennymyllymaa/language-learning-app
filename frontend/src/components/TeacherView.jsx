@@ -10,25 +10,60 @@ import WordList from "./WordList";
 import { useNavigate } from "react-router-dom";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
+/**
+ * React functional component for the teacher view.
+ * @component
+ * @param {object} props Props passed to the component.
+ * @param {object[]} props.words List of words from the database.
+ * @param {string} props.fromLanguage Currently used question language.
+ * @param {string} props.toLanguage Currently used asnwer language.
+ * @param {object} props.currentTest Current test data.
+ * @param {object[]} props.currentTestWords List of words in the current test.
+ * @param {Function} props.setFromLanguage Function to set the question language.
+ * @param {Function} props.setToLanguage Function to set the answer language.
+ * @param {Function} props.fetchWords Function to fetch all words from the backend.
+ * @param {Function} props.fetchTests Function to fetch all tests from the backend.
+ * @param {Function} props.setCurrentTest Function to set the current test data.
+ * @return {JSX.Element} JSX element representing the teacher view.
+ */
 function TeacherView(props) {
+  /**
+   * Set a variable using useNavigate.
+   */
   const navigate = useNavigate();
-  //State that keeps track which component is on display
+
+  /**
+   * State that keeps track which component is on display.
+   * Default is currentTest. Other options are EditTest and WordList.
+   * @type {string}
+   */
   const [showing, setShowing] = useState("currentTest");
 
-  //Needed props for different components
+  /**
+   * Needed props for EditTest component.
+   * @type {object}
+   */
   const propsToEditTest = {
     words: props.words,
     setFromLanguage: props.setFromLanguage,
     setToLanguage: props.setToLanguage,
     currentTest: props.currentTest,
-    fetchTests: props.fetchTests
+    fetchTests: props.fetchTests,
   };
 
+  /**
+   * Needed props for WordList component.
+   * @type {object}
+   */
   const propsToWordList = {
     words: props.words,
     fetchWords: props.fetchWords,
   };
 
+  /**
+   * Needed props for CurrentTest component.
+   * @type {object}
+   */
   const propsToCurrentTest = {
     fromLanguage: props.fromLanguage,
     toLanguage: props.toLanguage,
