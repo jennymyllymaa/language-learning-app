@@ -175,9 +175,55 @@ const connectionFunctions = {
     });
   },
 
-  saveTest: (newTestInput) => {
+  saveTestChanges: (newTestInput) => {
+    const newTest = checkEmptys(newTestInput);
+    console.log("repository: ", newTest);
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE tests SET name = ?, from_language = ?, to_language = ?, words = ? WHERE id = ?",
+        [
+          newTest.name,
+          newTest.from_language,
+          newTest.to_language,
+          JSON.stringify(newTest.words),
+          newTest.id,
+        ],
+        (error, results) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+          resolve({
+            id: newTest.id,
+            name: newTest.name,
+            from_language: newTest.from_language,
+            to_language: newTest.to_language,
+            words: newTest.words,
+          });
+        }
+      );
+    });
+  },
+
+  updateCurrentTestRow: (newRow) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE tests SET words = ? WHERE id = ?;",
+        [JSON.stringify(newRow.words), newRow.id],
+        (error, resuts) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(newRow);
+        }
+      );
+    });
+  },
+
+  saveNewTest: (newTestInput) => {
     const newTest = checkEmptys(newTestInput);
     return new Promise((resolve, reject) => {
+      console.log("Backend: ", newTest);
       //Get id numbers for database
       connection.query(
         "SELECT id FROM tests ORDER BY id ASC",
@@ -223,24 +269,6 @@ const connectionFunctions = {
       );
     });
   },
-
-  updateCurrentTestRow: (newRow) => {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        "UPDATE tests SET words = ? WHERE id = ?;",
-        [
-          JSON.stringify(newRow.words),
-          newRow.id,
-        ],
-        (error, resuts) => {
-          if (error) {
-            reject(error);
-          }
-          resolve(newRow);
-        }
-      );
-    });
-  }
 };
 
 module.exports = connectionFunctions;

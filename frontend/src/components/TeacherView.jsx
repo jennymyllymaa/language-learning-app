@@ -15,21 +15,13 @@ function TeacherView(props) {
   //State that keeps track which component is on display
   const [showing, setShowing] = useState("currentTest");
 
-  //Function that sets selected question language to state and removes the language from answer language options
-  const changeFromLanguage = (language) => {
-    props.setFromLanguage(language);
-  };
-
-  //Function that changes answer language
-  const changeToLanguage = (language) => {
-    props.setToLanguage(language);
-  };
-
   //Needed props for different components
   const propsToEditTest = {
-    changeFromLanguage,
-    changeToLanguage,
     words: props.words,
+    setFromLanguage: props.setFromLanguage,
+    setToLanguage: props.setToLanguage,
+    currentTest: props.currentTest,
+    fetchTests: props.fetchTests
   };
 
   const propsToWordList = {

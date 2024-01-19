@@ -17,7 +17,6 @@ function App() {
   const [currentTest, setCurrentTest] = useState({});
   const [currentTestWords, setCurrentTestWords] = useState([]);
 
-
   //Function to fetch all words from backend and set them to words state
   const fetchWords = async () => {
     let hr = await fetch(`${import.meta.env.VITE_API_URL}/api/words`);
@@ -45,16 +44,15 @@ function App() {
       idToUse++;
     }
     setCurrentTestWords(wordPairs);
-    console.log("updateCurrentTestWords: ", wordPairs);
   };
 
   //Use fetchWords and fetsTests on the first render
   useEffect(() => {
     fetchWords();
-    // updateTests();
     fetchTests();
   }, []);
 
+  //Props for TeacherView component
   const propsToTeacherView = {
     fetchWords,
     fetchTests,
@@ -68,9 +66,10 @@ function App() {
     setToLanguage,
     tests,
     currentTestWords,
-    setCurrentTestWords
+    setCurrentTestWords,
   };
 
+  //Props for StudentView component
   const propsToStudentView = {
     fromLanguage,
     toLanguage,
@@ -79,20 +78,17 @@ function App() {
 
   return (
     <BrowserRouter>
-        <div className="App">
-          <div>
-            <Routes>
-              <Route
-                path="/"
-                element={<StudentView {...propsToStudentView} />}
-              />
-              <Route
-                path="/teacher"
-                element={<TeacherView {...propsToTeacherView} />}
-              />
-            </Routes>
-          </div>
+      <div className="App">
+        <div>
+          <Routes>
+            <Route path="/" element={<StudentView {...propsToStudentView} />} />
+            <Route
+              path="/teacher"
+              element={<TeacherView {...propsToTeacherView} />}
+            />
+          </Routes>
         </div>
+      </div>
     </BrowserRouter>
   );
 }

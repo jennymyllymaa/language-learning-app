@@ -21,8 +21,8 @@ function CurrentTest(props) {
       headerName: "Id",
       width: 100,
     },
-    { field: "fromWord", headerName: "From", width: 200 },
-    { field: "toWord", headerName: "To", width: 200 },
+    { field: "fromWord", headerName: `${props.fromLanguage}`, width: 200 },
+    { field: "toWord", headerName: `${props.toLanguage}`, width: 200 },
     {
       field: "delete",
       headerName: "Delete",
@@ -120,7 +120,7 @@ function CurrentTest(props) {
   //State for the selected word from dropdown
   const [pickedWord, setPickedWord] = useState("");
 
-  //Function that add
+  //Function that add the new words to current_test in backend
   const updateTestWordsToBackend = async () => {
     let row = { ...props.currentTest };
     row.words.push({
@@ -129,6 +129,7 @@ function CurrentTest(props) {
     });
     //Empty pickedWord state
     setPickedWord("");
+    console.log(row);
 
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/api/tests/`, {
@@ -177,10 +178,6 @@ function CurrentTest(props) {
           component: "form",
           onSubmit: (event) => {
             event.preventDefault();
-            // const newWord = {
-            //   fromWord: pickedWord.label,
-            //   toWord: pickedWord.secondary,
-            // };
             updateTestWordsToBackend();
             handleClose();
           },
