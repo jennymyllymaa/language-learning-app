@@ -35,6 +35,29 @@ In student view you can:
 
 To use Learn Languages, simply navigate to the website here: [Learn Languages]().
 
+Teacher side:
+
+First you are greeted by the current test. This is what the student side sees. On the left is the question language and on the right is the answers. To add a word to the current exam you can click on the "Add word" below. To delete a word click on the trash can on the corresponding row.
+
+<img align='right' alt='Word list' src='./images/currenttest.PNG'></img>
+
+You can access the word list on the top navigation bar. To make changes to the word list simply click on the word you want to update. Be careful, these changes are saved to the server!
+
+<img align='right' alt='Word list' src='./images/editingwordlist.png'></img>
+
+If you want to delete a whole word, click on the trashcan on the last column. If you want to add a completely new word, simply click on the "Add word" below the word list.
+
+<img align='right' alt='Adding new list' src='./images/addingword.PNG'></img>
+
+On the "Create new test" you can make a completely new test. Choose languages from the dropdowns and click use. The site will show you all the possible words for those languages. Delete words that you don't want in the exam. When you press "Save as current test", the test you generated will be set as the current exam and will be visible to you in the "Test" site and also to the student.
+
+<img align='right' alt='Adding new list' src='./images/makingtest.PNG'></img>
+
+Student side:
+
+Simply fill in the form as best as you can. After clicking "Submit" you will see your score. After seeing your score you have two options: "Continue" and "Start Over". If you select "Continue", all your right answers stay in place, but wrong ones revert to empty. Like this you know where you messed up and can try again! If you select "Start over" all the answers empty. This also happens if you press "Empty" at any point while doing the exam.
+
+<img align='right' alt='Adding new list' src='./images/studentview.png'></img>
 
 
 ## Copyright
