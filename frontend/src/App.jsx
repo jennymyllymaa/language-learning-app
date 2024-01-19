@@ -48,25 +48,6 @@ function App() {
     console.log("updateCurrentTestWords: ", wordPairs);
   };
 
-  // const updateCurrentTestWords = () => {
-  //   console.log("currentTest: ",currentTest);
-  //   let wordPairs = [];
-  //   //Add id to words for the datagrids
-  //   let idToUse = 1;
-  //   for (const index in currentTest.words) {
-  //     const wordPair = currentTest.words[index];
-  //     wordPairs.push({id : idToUse, from_word: wordPair.from_word, to_word: wordPair.to_word});
-  //     idToUse++;
-  //   }
-  //   setCurrentTestWords(wordPairs);
-  //   console.log("updateCurrentTestWords: ", wordPairs);
-  // };
-
-  // const updateTests = async () => {
-  //   await fetchTests();
-  //   updateCurrentTestWords();
-  // };
-
   //Use fetchWords and fetsTests on the first render
   useEffect(() => {
     fetchWords();

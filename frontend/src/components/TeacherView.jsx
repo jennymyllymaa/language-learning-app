@@ -13,8 +13,10 @@ import Divider from "@mui/material/Divider";
 import CurrentTest from "./CurrentTest";
 import EditTest from "./EditTest";
 import WordList from "./WordList";
+import { useNavigate } from "react-router-dom";
 
 function TeacherView(props) {
+  const navigate = useNavigate();
   const [showing, setShowing] = useState("currentTest");
 
   //Function that sets selected question language to state and removes the language from answer language options
@@ -93,7 +95,13 @@ function TeacherView(props) {
           </Stack>
 
           <Stack direction="row" sx={{ marginLeft: "auto" }} spacing={2}>
-            <Button variant="contained" color="info">
+            <Button
+              variant="contained"
+              color="info"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
               Student
             </Button>
             <Button variant="contained" color="info">
