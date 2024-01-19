@@ -47,6 +47,7 @@ testsRouter.post("/", async (req, res) => {
 
 /**
  * Route to delete a test.
+ * Id of the word is gotten as a part of the url.
  * @name DELETE/tests
  * @function
  * @async
