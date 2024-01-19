@@ -18,7 +18,7 @@ app.use(cors());
 /**
  * Use dist(build) instead of actual frontend.
  */
-app.use(express.static("./frontend/dist"));
+app.use(express.static("../frontend/dist"));
 
 /**
  * Port number for server to listen to.
