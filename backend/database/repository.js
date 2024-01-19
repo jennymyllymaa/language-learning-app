@@ -1,6 +1,10 @@
 const connection = require("./config.js");
 
-// Function to go through the word received from frontend and replace "" and " " with null
+/**
+ * Goes through given word object and replaces "" and " " with null.
+ * @param {object} word The word object.
+ * @returns {object} Word object with "" and " " replaced with null.
+ */
 const checkEmptys = (word) => {
   const result = {};
   for (const key in word) {
@@ -14,7 +18,15 @@ const checkEmptys = (word) => {
   return result;
 };
 
+/**
+ * Object that stores the functions for routers in tests.js and words.js
+ * @type {object}
+ */
 const connectionFunctions = {
+  /**
+   * Connection fucntion for the MySQL connection
+   * @returns {Promise} A promise that resolves when the connection is successful.
+   */
   connect: () => {
     return new Promise((resolve, reject) => {
       connection.connect((err) => {
@@ -26,6 +38,10 @@ const connectionFunctions = {
     });
   },
 
+  /**
+   * Closing fucntion for the MySQL connection
+   * @returns {Promise} A promise that resolves when the connection is closes.
+   */
   close: () => {
     return new Promise((resolve, reject) => {
       connection.end((err, result) => {
@@ -37,7 +53,10 @@ const connectionFunctions = {
     });
   },
 
-  // Functions for wordsRouter
+  /**
+   * Function for wordsRouter. Returns all the words from the database.
+   * @returns {Promise} A promise that resolves with an array of word objects.
+   */
   returnAllWords: () => {
     return new Promise((resolve, reject) => {
       const sentence = "SELECT * FROM words";
@@ -50,6 +69,13 @@ const connectionFunctions = {
     });
   },
 
+  /**
+   * Function for wordsRouter. Returns all the words from the database.
+   * The function first goes through the existing id numbers in the database to
+   * get the smallest available one. This is to ensure that id numbers stay as small as possible.
+   * @param {object} newWordInput The new word object.
+   * @returns {Promise} A promise that resolves when the new word has been saved to the database.
+   */
   saveWord: (newWordInput) => {
     const newWord = checkEmptys(newWordInput);
     return new Promise((resolve, reject) => {
@@ -62,7 +88,6 @@ const connectionFunctions = {
             return;
           }
 
-          //Assign first free id as the newId
           let newId = 1;
           for (const row of results) {
             if (newId < row.id) {
@@ -103,6 +128,11 @@ const connectionFunctions = {
     });
   },
 
+  /**
+   * Function for wordsRouter. Deletes a word from the database.
+   * @param {number} id The id number of the word to be deleted.
+   * @returns {Promise} A promise that resolves when the word has been deleted from the database.
+   */
   deleteWordById: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
@@ -118,6 +148,11 @@ const connectionFunctions = {
     });
   },
 
+  /**
+   * Function for wordsRouter. Updates a row in the database.
+   * @param {object} newRowInput The new row object.
+   * @returns {Promise} A promise that resolves when the row has been updated to the database.
+   */
   updateWord: (newRowInput) => {
     const newRow = checkEmptys(newRowInput);
     return new Promise((resolve, reject) => {
@@ -142,7 +177,13 @@ const connectionFunctions = {
     });
   },
 
-  //Functions for testsRouter
+  /**
+   * Function for testsRouter. Returns all the tests from the database.
+   * Function is prepared to deal with multiple tests because it is also
+   * made for future functionality where the user would be able to save
+   * different tests into database, not just the current test.
+   * @returns {Promise} A promise that resolves with an array of test objects from the database.
+   */
   returnAllTests: () => {
     return new Promise((resolve, reject) => {
       const sentence = "SELECT * FROM tests";
@@ -155,11 +196,16 @@ const connectionFunctions = {
           words: JSON.parse(result.words),
         }));
         resolve(parsedResults);
-        //resolve(JSON.parse(JSON.stringify(results)));
       });
     });
   },
 
+  /**
+   * Function for testsRouter. Deletes a test from the database. Useful after multiple tests
+   * have been enabled.
+   * @param {number} id The id number of the test to be deleted.
+   * @returns {Promise} A promise that resolves when the test has been deleted from the database.
+   */
   deleteTestById: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
@@ -175,6 +221,11 @@ const connectionFunctions = {
     });
   },
 
+  /**
+   * Function for testsRouter. Updates an existing test in database.
+   * @param {object} newTestInput The new row of data for the test.
+   * @returns {Promise} A promise that resolves when the test has been updated in database.
+   */
   saveTestChanges: (newTestInput) => {
     const newTest = checkEmptys(newTestInput);
     console.log("repository: ", newTest);
@@ -205,26 +256,31 @@ const connectionFunctions = {
     });
   },
 
-  updateCurrentTestRow: (newRow) => {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        "UPDATE tests SET words = ? WHERE id = ?;",
-        [JSON.stringify(newRow.words), newRow.id],
-        (error, resuts) => {
-          if (error) {
-            reject(error);
-          }
-          resolve(newRow);
-        }
-      );
-    });
-  },
+  // updateCurrentTestRow: (newRow) => {
+  //   return new Promise((resolve, reject) => {
+  //     connection.query(
+  //       "UPDATE tests SET words = ? WHERE id = ?;",
+  //       [JSON.stringify(newRow.words), newRow.id],
+  //       (error, resuts) => {
+  //         if (error) {
+  //           reject(error);
+  //         }
+  //         resolve(newRow);
+  //       }
+  //     );
+  //   });
+  // },
 
+  /**
+   * Function for testsRouter. Saves new test to database. Will be needed when multiple tests are enabled.
+   * The function first goes through the existing id numbers in the database to
+   * get the smallest available one. This is to ensure that id numbers stay as small as possible.
+   * @param {object} newTestInput The new test object.
+   * @returns {Promise} A promise that resolves when the new test has been saved to database.
+   */
   saveNewTest: (newTestInput) => {
     const newTest = checkEmptys(newTestInput);
     return new Promise((resolve, reject) => {
-      console.log("Backend: ", newTest);
-      //Get id numbers for database
       connection.query(
         "SELECT id FROM tests ORDER BY id ASC",
         (error, results) => {
@@ -233,7 +289,6 @@ const connectionFunctions = {
             return;
           }
 
-          //Assign first free id as the newId
           let newId = 1;
           for (const row of results) {
             if (newId < row.id) {
