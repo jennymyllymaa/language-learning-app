@@ -12,10 +12,25 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
+/**
+ * React functional component for the student view.
+ * @component
+ * @param {object} props Props passed to the component.
+ * @param {string} props.fromLanguage The source language of the current test.
+ * @param {string} props.toLanguage The target language of the current test.
+ * @param {object[]} props.currentTestWords List of words in the current test with {question, answer}.
+ * @return {JSX.Element} JSX element representing the student view.
+ */
 function StudentView(props) {
+  /**
+   * Set a variable using useNavigate.
+   */
   const navigate = useNavigate();
 
-  //Rows and columns for the table
+  /**
+   * Rows and columns for the table.
+   * @type {array}
+   */
   const columns = [
     {
       field: "id",
@@ -36,20 +51,34 @@ function StudentView(props) {
     },
   ];
 
-  //Initial rows to answers to copy
+  /**
+   * Initial rows for answers to copy.
+   * @type {array}
+   */
   const tempRows = props.currentTestWords.map((word) => ({
     id: word.id,
     fromWord: word.from_word,
     toWord: "",
   }));
 
-  //State that stores questions and aswers
+  /**
+   * State that stores questions and aswers.
+   * @type {array}
+   */
   const [answers, setAnswers] = useState([...tempRows]);
 
-  //Rows to be answers so that filled answers stay visible
+  /**
+   * Rows to be answers so that filled answers stay visible.
+   * @type {array}
+   */
   const rows = [...answers];
 
-  //Add filled answer to the state
+  /**
+   * Function to add filled answer to the state.
+   * @function
+   * @param {object} wordPair The question and answer as an object.
+   * @return {object} The processRowUpdate needs to return the new row.
+   */
   const addWordToAnswers = (wordPair) => {
     let tempArray = [...answers];
     const updatedTempArray = tempArray.map((word) => {
@@ -59,30 +88,45 @@ function StudentView(props) {
       return word;
     });
     setAnswers(updatedTempArray);
-
-    //processRowUpdate needs to return the new row
     return wordPair;
   };
 
-  //Necessary function for autogrid
+  /**
+   * Necessary function for autogrid.
+   * @function
+   * @param {Error} error The error object.
+   */
   const handleProcessRowUpdateError = (error) => {
-    console.log(error);
+    console.error(error);
   };
 
-  //State for the dialog
+  /**
+   * State for the dialog.
+   * @type {boolean}
+   */
   const [open, setOpen] = useState(false);
 
-  //Dialog open and close functions
+  /**
+   * Function to open the dialog.
+   * @function
+   */
   const handleClickOpen = () => {
     setOpen(true);
     checkCorrectAnswers();
   };
 
+  /**
+   * Function to close the dialog.
+   * @function
+   */
   const handleClose = () => {
     setOpen(false);
   };
 
-  //If student want to continue, keep the correct answers but empty wrong ones
+  /**
+   * Function when student want to continue, keep the correct answers but empty wrong ones.
+   * @function
+   */
   const handleCloseContinue = () => {
     const updatedAnswers = [];
 
@@ -111,22 +155,34 @@ function StudentView(props) {
     setOpen(false);
   };
 
-  //If student wants to start over, empty all answers
+  /**
+   * Function when student wants to start over, empty all answers.
+   * @function
+   */
   const handleCloseStartOver = () => {
     emptyAllAnswers();
     setOpen(false);
   };
 
-  //Function that emptyes answers
+  /**
+   * Function that emptyes answers.
+   * @function
+   */
   const emptyAllAnswers = () => {
     const emptyAnswers = answers.map((answer) => ({ ...answer, toWord: "" }));
     setAnswers(emptyAnswers);
   };
 
-  //State for the score
+  /**
+   * State for the score.
+   * @type {string}
+   */
   const [score, setScore] = useState("");
 
-  //Function that check how many answers are correct
+  /**
+   * Function that check how many answers are correct and sets it to score.
+   * @function
+   */
   const checkCorrectAnswers = () => {
     let correctCount = 0;
     let maxCount = answers.length;
