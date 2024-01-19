@@ -216,7 +216,7 @@ function EditTest(props) {
       </Stack>
       <Button onClick={useLanguages}>Use</Button>
       {languagesChosen && (
-        <div>
+        <div style={{ textAlign: "center" }}>
           <div style={{ height: 400, width: "100%" }}>
             <DataGrid
               rows={rows}

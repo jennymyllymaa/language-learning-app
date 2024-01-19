@@ -147,7 +147,7 @@ function StudentView(props) {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Typography>Learn Languages</Typography>
+          <Typography variant="h4">Learn Languages</Typography>
           <Button
             sx={{ marginLeft: "auto" }}
             variant="contained"
