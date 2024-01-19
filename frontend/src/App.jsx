@@ -76,6 +76,7 @@ function App() {
 
   const propsToTeacherView = {
     fetchWords,
+    fetchTests,
     words,
     setWords,
     currentTest,

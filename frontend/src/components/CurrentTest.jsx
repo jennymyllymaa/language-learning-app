@@ -18,6 +18,7 @@ import Box from "@mui/material/Box";
 import Autocomplete from "@mui/material/Autocomplete";
 
 function CurrentTest(props) {
+  // Columns for the datagrid, last one is a delete button
   const columns = [
     {
       field: "id",
@@ -44,24 +45,42 @@ function CurrentTest(props) {
     },
   ];
 
+  //Function for each rows delete button
   const onButtonClick = (e, row) => {
     e.stopPropagation();
-    console.log(row);
+    deleteWordPair(row);
   };
 
-  //   fromLanguage: props.fromLanguage,
-  //   toLanguage: props.toLanguage,
-  //   words: props.words,
-  //   fetchTests: props.fetchTests,
-  //   currentTest: props.currentTest,
-  //   setCurrentTest: props.setCurrentTest,
-  //   currentTestWords: props.currentTestWords,
+  // Function to delete a word pair from the current test
+  const deleteWordPair = async (row) => {
+    //Making a new row without the word pair
+    const newCompleteRow = {...props.currentTest};
+    let wordToDelete = row.fromWord;
+    const updatedWords = newCompleteRow.words.filter((wordPair) => {
+      return wordPair.from_word !== wordToDelete;
+    });
+    newCompleteRow.words = updatedWords;
+
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/tests/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCompleteRow),
+      });
+      // Update tests state to rerender
+      props.fetchTests();
+    } catch (error) {
+      console.error("Error deleting row.");
+    }
+  };
 
   let rows = props.currentTestWords.map((wordPair) => ({
-      id: wordPair.id,
-      fromWord: wordPair.from_word,
-      toWord: wordPair.to_word
-    }));
+    id: wordPair.id,
+    fromWord: wordPair.from_word,
+    toWord: wordPair.to_word,
+  }));
 
   const [open, setOpen] = useState(false);
 
@@ -77,8 +96,8 @@ function CurrentTest(props) {
   const [availableWords, setAvailableWords] = useState([]);
 
   const checkAvailableWords = () => {
-  const firstLanguage = props.fromLanguage.toLowerCase();
-  const secondLanguage = props.toLanguage.toLowerCase();
+    const firstLanguage = props.fromLanguage.toLowerCase();
+    const secondLanguage = props.toLanguage.toLowerCase();
     let wordsArr = props.words.filter((wordData) => {
       return (
         wordData[firstLanguage] !== null && wordData[secondLanguage] !== null
@@ -87,13 +106,41 @@ function CurrentTest(props) {
     // Add label to the array for Autocomplete component
     // Add Secondary to help word recovery
     wordsArr = wordsArr.map((wordData) => {
-      return { ...wordData, label: wordData[firstLanguage], secondary: wordData[secondLanguage] };
+      return {
+        ...wordData,
+        label: wordData[firstLanguage],
+        secondary: wordData[secondLanguage],
+      };
     });
     setAvailableWords(wordsArr);
   };
 
+  //State for the selected word from dropdown
   const [pickedWord, setPickedWord] = useState("");
 
+  const updateTestWordsToBackend = async () => {
+    let row = { ...props.currentTest };
+    row.words.push({
+      from_word: pickedWord.label,
+      to_word: pickedWord.secondary,
+    });
+    //Empty pickedWord state
+    setPickedWord("");
+
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/tests/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(row),
+      });
+      // Update tests state to rerender
+      props.fetchTests();
+    } catch (error) {
+      console.error("Error saving word.");
+    }
+  };
 
   return (
     <Grid
@@ -127,16 +174,11 @@ function CurrentTest(props) {
           component: "form",
           onSubmit: (event) => {
             event.preventDefault();
-            // const formData = new FormData(event.currentTarget);
-            // const formJson = Object.fromEntries(formData.entries());
-
-            const newWord = {
-              fromWord: pickedWord.label,
-              toWord: pickedWord.secondary,
-            };
-            console.log(newWord);
-            //saveNewWordToBackend(newWord);
-            //console.log("testiValue: ", pickedWord);
+            // const newWord = {
+            //   fromWord: pickedWord.label,
+            //   toWord: pickedWord.secondary,
+            // };
+            updateTestWordsToBackend();
             handleClose();
           },
         }}

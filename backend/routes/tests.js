@@ -43,8 +43,6 @@ testsRouter.delete("/:myId([0-9]+)", async (req, res) => {
 
 testsRouter.put("/", async (req, res) => {
   try {
-    console.log("req body: ");
-    console.log(req.body);
     const updatedRow = await database.updateCurrentTestRow(req.body);
     res.json(updatedRow);
   } catch {

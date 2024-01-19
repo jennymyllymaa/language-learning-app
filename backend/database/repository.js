@@ -161,7 +161,6 @@ const connectionFunctions = {
   },
 
   deleteTestById: (id) => {
-    console.log(id);
     return new Promise((resolve, reject) => {
       connection.query(
         "DELETE FROM tests WHERE id = ?",
@@ -177,7 +176,6 @@ const connectionFunctions = {
   },
 
   saveTest: (newTestInput) => {
-    console.log(newTestInput);
     const newTest = checkEmptys(newTestInput);
     return new Promise((resolve, reject) => {
       //Get id numbers for database
@@ -227,8 +225,6 @@ const connectionFunctions = {
   },
 
   updateCurrentTestRow: (newRow) => {
-    console.log("updatessa");
-    console.log(newRow.id);
     return new Promise((resolve, reject) => {
       connection.query(
         "UPDATE tests SET words = ? WHERE id = ?;",
