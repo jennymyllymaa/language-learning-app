@@ -1,5 +1,13 @@
 const mysql = require("mysql");
 
+/**
+ * MySQL connection configuration.
+ * @typedef {Object} MysqlConfig
+ * @property {string} host - The MySQL host.
+ * @property {string} user - The MySQL user.
+ * @property {string} password - The MySQL user's password.
+ * @property {string} database - The MySQL database name.
+ */
 const config = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -7,6 +15,14 @@ const config = {
   database: process.env.DB_NAME,
 };
 
+/**
+ * Created MySQL connection instance.
+ * @type {MysqlConfig}
+ */
 const connection = mysql.createConnection(config);
 
+/**
+ * Exported MySQL connection instance.
+ * @module
+ */
 module.exports = connection;
