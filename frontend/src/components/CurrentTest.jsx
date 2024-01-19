@@ -13,8 +13,23 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import Autocomplete from "@mui/material/Autocomplete";
 
+/**
+ * React functional component representing the current test in use.
+ * @component
+ * @param {object} props Props passed to the component.
+ * @param {string} props.fromLanguage The question language of the current test.
+ * @param {string} props.toLanguage The answer language of the current test.
+ * @param {object[]} props.currentTestWords List of words in the current test with {question, answer}.
+ * @param {object} props.currentTest The current test object.
+ * @param {object[]} props.words List of all words from the database.
+ * @param {function} props.fetchTests Function to fetch all tests.
+ * @return {JSX.Element} JSX element representing the current test.
+ */
 function CurrentTest(props) {
-  // Columns for the datagrid, last one is a delete button
+  /**
+   * Columns for the datagrid, last one is a delete button
+   * @type {array}
+   */
   const columns = [
     {
       field: "id",
@@ -41,16 +56,26 @@ function CurrentTest(props) {
     },
   ];
 
-  //Function for each rows delete button
+  /**
+   * Event handler for the delete button click. Deletes a word pair from the current test.
+   * @function
+   * @param {object} e The event object.
+   * @param {object} row The row data.
+   */
   const onButtonClick = (e, row) => {
     e.stopPropagation();
     deleteWordPair(row);
   };
 
-  // Function to delete a word pair from the current test
+  /**
+   * Function to delete a word pair from the current test.
+   * @function
+   * @async
+   * @param {object} row The row data to be deleted.
+   */
   const deleteWordPair = async (row) => {
     //Making a new row without the word pair
-    const newCompleteRow = {...props.currentTest};
+    const newCompleteRow = { ...props.currentTest };
     let wordToDelete = row.fromWord;
     const updatedWords = newCompleteRow.words.filter((wordPair) => {
       return wordPair.from_word !== wordToDelete;
@@ -72,31 +97,50 @@ function CurrentTest(props) {
     }
   };
 
-  //Rows for the datagrid
+  /**
+   * Rows for the datagrid generated from currentTestWords.
+   * @type {array}
+   */
   let rows = props.currentTestWords.map((wordPair) => ({
     id: wordPair.id,
     fromWord: wordPair.from_word,
     toWord: wordPair.to_word,
   }));
 
-  //State for if the dialog is open
+  /**
+   * State for keeping track if the dialog is open
+   * @type {boolean}
+   */
   const [open, setOpen] = useState(false);
 
-  //Open and close functions for the dialog
+  /**
+   * Event handler for the opening of the dialog.
+   * @function
+   */
   const handleClickOpen = () => {
     setOpen(true);
     checkAvailableWords();
   };
 
+  /**
+   * Event handler for the closing of the dialog.
+   * @function
+   */
   const handleClose = () => {
     setOpen(false);
   };
 
-  //State for the availableWords for the dialog
+  /**
+   * State for availableWords that can be added to the current test.
+   * @type {array}
+   */
   const [availableWords, setAvailableWords] = useState([]);
 
-  //Function that check the used languages and goes through the words
-  // checking which words have those languages filled
+  /**
+   * Function that checks the used languages and goes through the words
+   * checking which words have those languages filled.
+   * @function
+   */
   const checkAvailableWords = () => {
     const firstLanguage = props.fromLanguage.toLowerCase();
     const secondLanguage = props.toLanguage.toLowerCase();
@@ -112,7 +156,7 @@ function CurrentTest(props) {
     wordsArr = wordsArr.filter((wordData) => {
       for (let i = 0; i < existingWordsIds.length; i++) {
         if (wordData.id === existingWordsIds[i]) {
-          return false; // Exludes this word
+          return false;
         }
       }
       return true;
@@ -130,17 +174,25 @@ function CurrentTest(props) {
     setAvailableWords(wordsArr);
   };
 
-  //State for the selected word from dropdown
+  /**
+   * State for the word that was chosen from the dropdown in the dialog.
+   * @type {string}
+   */
   const [pickedWord, setPickedWord] = useState("");
 
-  //Function that add the new words to current_test in backend
+  /**
+   * Function that add the new words to current_test in backend
+   * and then emptyes pickedWord state.
+   * Finally use fetchTests to trigger rerender.
+   * @async
+   * @function
+   */
   const updateTestWordsToBackend = async () => {
     let row = { ...props.currentTest };
     row.words.push({
       from_word: pickedWord.label,
       to_word: pickedWord.secondary,
     });
-    //Empty pickedWord state
     setPickedWord("");
 
     try {
@@ -151,7 +203,6 @@ function CurrentTest(props) {
         },
         body: JSON.stringify(row),
       });
-      // Update tests state to rerender
       props.fetchTests();
     } catch (error) {
       console.error("Error saving word.");

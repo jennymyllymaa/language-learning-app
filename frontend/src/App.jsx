@@ -9,15 +9,39 @@ import TeacherView from "./components/TeacherView.jsx";
  * @return {JSX.Element} JSX element representing the application.
  */
 function App() {
-  //All words from the database
+  /**
+   * State for all words from the database
+   * @type {array}
+   */
   const [words, setWords] = useState([]);
-  //Currently used languages
+
+  /**
+   * State for currently used question language
+   * @type {string}
+   */
   const [fromLanguage, setFromLanguage] = useState("");
+
+  /**
+   * State for currently used answer language
+   * @type {string}
+   */
   const [toLanguage, setToLanguage] = useState("");
-  //All tests in database
+
+  /**
+   * State for all tests in database
+   * @type {array}
+   */
   const [tests, setTests] = useState([]);
-  //List of words in the current test with {question, answer}
+
+  /**
+   * State for current test information
+   * @type {array}
+   */
   const [currentTest, setCurrentTest] = useState({});
+  /**
+   * State for words in current test
+   * @type {array}
+   */
   const [currentTestWords, setCurrentTestWords] = useState([]);
 
   /**
