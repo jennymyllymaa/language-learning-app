@@ -1,21 +1,70 @@
-//jos ajaa manuaalisesti backend kansiosta:
-require("dotenv").config({ path: "../.env" });
+/**
+ * Configuration setup for environment variables.
+ * Loads environment variables from the specified file.
+ */
+require("dotenv").config();
 
-// require("dotenv").config();
+/**
+ * Express application for the backend server.
+ */
 const express = require("express");
+
+/**
+ * Utilizes the Express framework for handling HTTP requests and responses.
+ */
 const app = express();
+
+/**
+ * Enables CORS.
+ */
 var cors = require("cors");
 app.use(cors());
+
+
+/**
+ * Use dist(build) instead of actual frontend.
+ */
 //When frontend has been built
 //app.use(express.static("./frontend/dist"));
+
+/**
+ * Port number for server to listen to.
+ * @type {number}
+ */
 const port = 8080;
+
+/**
+ * Router for handling words routes.
+ * @type {object}
+ */
 const wordsRouter = require("./routes/words");
+
+/**
+ * Router for handling tests routes.
+ * @type {object}
+ */
 const testsRouter = require("./routes/tests");
+
+/**
+ * Functions for the database connection.
+ * @type {object}
+ */
 const connectionFunctions = require("./database/repository");
+
+/**
+ * Middleware to parse incoming JSON requests
+ */
 app.use(express.json());
 
+/**
+ * Establishing the server object.
+ * @type {object}
+ */
 let server = undefined;
 
+/**
+ * Establishing connection to database.
+ */
 connectionFunctions
   .connect()
   .then(() => {
@@ -38,19 +87,18 @@ connectionFunctions
     process.exit(1);
   });
 
-//Graceful shutdown
+/**
+ * Graceful shutdown function to handle server and database closure.
+ */
 const gracefulShutdown = () => {
   console.log("Starting graceful shutdown...");
-  // Close the server
   if (server) {
     console.log("Server was opened, so we can close it...");
-    // Give error message if server closing does not work
     server.close((err) => {
       if (err) {
         console.error("Error closing server:", err);
       } else {
         console.log("Server closed");
-        // Try to close db, give errors is that does not work
         connectionFunctions.close((err) => {
           if (err) {
             console.error("Error closing database:", err);
