@@ -1,16 +1,16 @@
-import Container from "@mui/material/Container";
+//import Container from "@mui/material/Container";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import StudentView from "./components/StudentView.jsx";
 import TeacherView from "./components/TeacherView.jsx";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+//import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 
 function App() {
   //All words from the database
   const [words, setWords] = useState([]);
-  //Currently used languages,  default is from English to Finnish
-  const [fromLanguage, setFromLanguage] = useState("English");
-  const [toLanguage, setToLanguage] = useState("Finnish");
+  //Currently used languages
+  const [fromLanguage, setFromLanguage] = useState("");
+  const [toLanguage, setToLanguage] = useState("");
   //All tests in database
   const [tests, setTests] = useState([]);
   //List of words in the current test with {question, answer}
@@ -31,6 +31,8 @@ function App() {
     setTests(data);
     //Set first test aka current_test as currentTest
     setCurrentTest(data[0]);
+    setFromLanguage(data[0].from_language);
+    setToLanguage(data[0].to_language);
     let wordPairs = [];
     //Add id to words for the datagrids
     let idToUse = 1;
