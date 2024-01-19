@@ -33,7 +33,9 @@ In student view you can:
 
 ## Usage
 
-To use Learn Languages, simply navigate to the website here: [Learn Languages]().
+To use Learn Languages, simply navigate to the website here: [Learn Languages](https://learn-languages-49sl.onrender.com/).
+
+Screencast: [Youtube](https://www.youtube.com/watch?v=z84n52_qFyU).
 
 Teacher side:
 
