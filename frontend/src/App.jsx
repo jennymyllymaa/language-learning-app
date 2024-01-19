@@ -1,10 +1,13 @@
-//import Container from "@mui/material/Container";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import StudentView from "./components/StudentView.jsx";
 import TeacherView from "./components/TeacherView.jsx";
-//import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 
+/**
+ * React functional component representing the main application.
+ * @component
+ * @return {JSX.Element} JSX element representing the application.
+ */
 function App() {
   //All words from the database
   const [words, setWords] = useState([]);
@@ -17,14 +20,25 @@ function App() {
   const [currentTest, setCurrentTest] = useState({});
   const [currentTestWords, setCurrentTestWords] = useState([]);
 
-  //Function to fetch all words from backend and set them to words state
+  /**
+   * Function that fetched all word data from backend and sets it to words state.
+   * @function
+   * @async
+   * @return {Promise} Promise representing the completion of the task.
+   */
   const fetchWords = async () => {
     let hr = await fetch(`${import.meta.env.VITE_API_URL}/api/words`);
     let data = await hr.json();
     setWords(data);
   };
 
-  //Function to fetch all words from backend and set them to words state
+  /**
+   * Function that fetched all test data from backend and sets it to tests state.
+   * Also sets currentTest, currentTestWords, fromLanguage and toLanguage states.
+   * @function
+   * @async
+   * @return {Promise} Promise representing the completion of the task.
+   */
   const fetchTests = async () => {
     let hr = await fetch(`${import.meta.env.VITE_API_URL}/api/tests`);
     let data = await hr.json();
@@ -48,13 +62,19 @@ function App() {
     setCurrentTestWords(wordPairs);
   };
 
-  //Use fetchWords and fetsTests on the first render
+  /**
+   * UseEffect that only trigger on the firt renders and
+   * uses fetchWords and fetchTests to fetch the data from the backend.
+   */
   useEffect(() => {
     fetchWords();
     fetchTests();
   }, []);
 
-  //Props for TeacherView component
+  /**
+   * All the props that are needed for the TeacherView component.
+   * @type {object}
+   */
   const propsToTeacherView = {
     fetchWords,
     fetchTests,
@@ -71,7 +91,10 @@ function App() {
     setCurrentTestWords,
   };
 
-  //Props for StudentView component
+  /**
+   * All the props that are needed for the StudentView component.
+   * @type {object}
+   */
   const propsToStudentView = {
     fromLanguage,
     toLanguage,
