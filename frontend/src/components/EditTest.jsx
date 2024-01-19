@@ -10,12 +10,35 @@ import Stack from "@mui/material/Stack";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid } from "@mui/x-data-grid";
 
+/**
+ * React functional component for editing a test.
+ * @component
+ * @param {object} props Props passed to the component.
+ * @param {object[]} props.words List of all words from the database.
+ * @param {function} props.fetchTests Function to fetch all tests.
+ * @param {string} props.fromLanguage The question language of the current test.
+ * @param {string} props.toLanguage The asnwer language of the current test.
+ * @param {function} props.setFromLanguage Function to set the question language.
+ * @param {function} props.setToLanguage Function to set the answer language.
+ * @return {JSX.Element} JSX element representing the test editing component.
+ */
 function EditTest(props) {
-  //States that hold selected lnaguages before saving
+  /**
+   * State that holds the question language.
+   * @type {string}
+   */
   const [questionLanguage, setQuestionLanguage] = useState("");
+
+  /**
+   * State that holds the answer language.
+   * @type {string}
+   */
   const [answerLanguage, setAnswerLanguage] = useState("");
 
-  //Array that hold all languages from backend
+  /**
+   * State that holds array that holds all languages from backend.
+   * @type {array}
+   */
   const [availableLanguages, setAvailableLanguages] = useState([
     "English",
     "Finnish",
@@ -23,6 +46,11 @@ function EditTest(props) {
     "German",
     "Italian",
   ]);
+
+  /**
+   * State that holds array that holds all original languages.
+   * @type {array}
+   */
   const originalLanguages = [
     "English",
     "Finnish",
@@ -31,7 +59,12 @@ function EditTest(props) {
     "Italian",
   ];
 
-  //Function that sets selected question language to state and removes the language from answer language options
+  /**
+   * Event handler function that sets selected question language to state and
+   * removes the language from answer language options.
+   * @function
+   * @param {object} event The event object.
+   */
   const handleChangeFromLanguage = (event) => {
     setSelectedQuestionLanguage(event.target.value);
 
@@ -46,21 +79,34 @@ function EditTest(props) {
     setAvailableLanguages(updatedLanguages);
   };
 
-  // Set answer language
+  /**
+   * Event handler function that sets the picked language to selectedAnswerLanguage
+   * @function
+   * @param {object} event The event object.
+   */
   const handleChangeToLanguage = (event) => {
     setSelectedAnswerLanguage(event.target.value);
   };
 
-  //State that keeps track if the languages are chosen
+  /**
+   * State that keeps track if the languages are chosen
+   * @type {boolean}
+   */
   const [languagesChosen, setLanguagesChosen] = useState(false);
 
-  //Function that sets datagrid to be shown and sets available words as availableWords and to rows
+  /**
+   * Function that sets datagrid to be shown and sets available words as availableWords and to rows
+   * @function
+   */
   const useLanguages = () => {
     setLanguagesChosen(true);
     checkAvailableWords();
   };
 
-  //Columns for the datagrid
+  /**
+   * Columns for the datagrid
+   * @type {array}
+   */
   const columns = [
     {
       field: "id",
@@ -87,31 +133,48 @@ function EditTest(props) {
     },
   ];
 
-  //Function for each rows delete button
+  /**
+   * Event handler function for each rows delete button
+   * @function
+   * @param {object} event The event object.
+   * @param {object} row The row data
+   */
   const onButtonClick = (e, row) => {
     e.stopPropagation();
     deleteRow(row);
   };
 
-  //State that holds the available words pairs for selected languages as {question, answer}
+  /**
+   * State that holds the available words pairs for selected languages
+   * @type {array}
+   */
   const [availableWords, setAvailableWords] = useState([]);
 
-  //Function that deletes the row from availableWords
+  /**
+   * Function that deletes the row from availableWords
+   * @function
+   * @param {object} row The row data
+   */
   const deleteRow = (row) => {
     let tempArr = availableWords;
     tempArr = tempArr.filter((wordPair) => wordPair.id !== row.id);
     setAvailableWords(tempArr);
   };
 
-  //States that hold selected languages before used selects to use them
-  // so the column names wont change before that
+  /**
+   * States that hold selected languages before used selects to use them
+   * so the column names wont change before that
+   * @type {string}
+   */
   const [selectedQuestionLanguage, setSelectedQuestionLanguage] = useState("");
   const [selectedAnswerLanguage, setSelectedAnswerLanguage] = useState("");
 
-  //Function that check the used languages and goes through the words
-  // checking which words have those languages filled and sets them into availableWords
+  /**
+   * Function that checks the used languages and goes through the words
+   * checking which words have those languages filled and sets them into availableWords
+   * @function
+   */
   const checkAvailableWords = () => {
-    //Set selected languages to actual languages for the datagrid table
     setQuestionLanguage(selectedQuestionLanguage);
     setAnswerLanguage(selectedAnswerLanguage);
 
@@ -137,14 +200,22 @@ function EditTest(props) {
     setAvailableWords(tempArr);
   };
 
-  //Rows for the datagrid
+  /**
+   * Rows for the datagrid.
+   * @type {array}
+   */
   const rows = availableWords;
 
-  //Function that updates the current_test row in backend
+  /**
+   * Function that updates the current_test row in backend.
+   * Finally fetchTests to trigger rerender and update language states.
+   * @function
+   * @async
+   */
   const updateCurrentTestToBackend = async () => {
     let row = {};
     row.id = 1;
-    row.name = "current_test"
+    row.name = "current_test";
     row.from_language = questionLanguage.toLowerCase();
     row.to_language = answerLanguage.toLowerCase();
 
@@ -164,12 +235,10 @@ function EditTest(props) {
         },
         body: JSON.stringify(row),
       });
-      //Update tests state
       props.fetchTests();
     } catch (error) {
       console.error("Error saving word.");
     }
-    //Also update language states
     props.setFromLanguage(questionLanguage);
     props.setToLanguage(answerLanguage);
   };
