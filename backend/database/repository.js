@@ -255,21 +255,6 @@ const connectionFunctions = {
     });
   },
 
-  // updateCurrentTestRow: (newRow) => {
-  //   return new Promise((resolve, reject) => {
-  //     connection.query(
-  //       "UPDATE tests SET words = ? WHERE id = ?;",
-  //       [JSON.stringify(newRow.words), newRow.id],
-  //       (error, resuts) => {
-  //         if (error) {
-  //           reject(error);
-  //         }
-  //         resolve(newRow);
-  //       }
-  //     );
-  //   });
-  // },
-
   /**
    * Function for testsRouter. Saves new test to database. Will be needed when multiple tests are enabled.
    * The function first goes through the existing id numbers in the database to

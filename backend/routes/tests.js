@@ -21,16 +21,6 @@ const testsRouter = express.Router();
   res.json(tests);
 });
 
-// testsRouter.get("/:myId([0-9]+)", async (req, res) => {
-//   const id = parseInt(req.params.myId);
-//   try {
-//     const wordPairs = await database.returnTestWords(id);
-//     res.json(wordPairs);
-//   } catch {
-//     res.status(404).end();
-//   }
-// });
-
 /**
  * Route to post new test.
  * @name POST/tests
