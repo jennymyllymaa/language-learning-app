@@ -40,13 +40,13 @@ function StudentView(props) {
     {
       field: "fromWord",
       headerName: `${props.fromLanguage}`,
-      width: 220,
+      width: 215,
       editable: false,
     },
     {
       field: "toWord",
       headerName: `${props.toLanguage}`,
-      width: 220,
+      width: 215,
       editable: true,
     },
   ];
