@@ -21,8 +21,8 @@ function CurrentTest(props) {
       headerName: "Id",
       width: 100,
     },
-    { field: "fromWord", headerName: "From", width: 150 },
-    { field: "toWord", headerName: "To", width: 150 },
+    { field: "fromWord", headerName: "From", width: 200 },
+    { field: "toWord", headerName: "To", width: 200 },
     {
       field: "delete",
       headerName: "Delete",
@@ -72,14 +72,17 @@ function CurrentTest(props) {
     }
   };
 
+  //Rows for the datagrid
   let rows = props.currentTestWords.map((wordPair) => ({
     id: wordPair.id,
     fromWord: wordPair.from_word,
     toWord: wordPair.to_word,
   }));
 
+  //State for if the dialog is open
   const [open, setOpen] = useState(false);
 
+  //Open and close functions for the dialog
   const handleClickOpen = () => {
     setOpen(true);
     checkAvailableWords();
@@ -89,8 +92,11 @@ function CurrentTest(props) {
     setOpen(false);
   };
 
+  //State for the availableWords for the dialog
   const [availableWords, setAvailableWords] = useState([]);
 
+  //Function that check the used languages and goes through the words
+  // checking which words have those languages filled
   const checkAvailableWords = () => {
     const firstLanguage = props.fromLanguage.toLowerCase();
     const secondLanguage = props.toLanguage.toLowerCase();
@@ -114,6 +120,7 @@ function CurrentTest(props) {
   //State for the selected word from dropdown
   const [pickedWord, setPickedWord] = useState("");
 
+  //Function that add
   const updateTestWordsToBackend = async () => {
     let row = { ...props.currentTest };
     row.words.push({
@@ -148,7 +155,7 @@ function CurrentTest(props) {
       <Typography variant="h5" sx={{ margin: "20px" }}>
         Test
       </Typography>
-      <div style={{ height: 400, width: "100%" }}>
+      <div style={{ height: 400, width: "70%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -161,7 +168,7 @@ function CurrentTest(props) {
         />
       </div>
       <Box>
-        <Button onClick={handleClickOpen}>dialogi</Button>
+        <Button onClick={handleClickOpen}>Add word</Button>
       </Box>
       <Dialog
         open={open}

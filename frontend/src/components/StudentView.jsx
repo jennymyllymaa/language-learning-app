@@ -10,6 +10,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 function StudentView(props) {
   const navigate = useNavigate();
@@ -156,6 +157,7 @@ function StudentView(props) {
             }}
           >
             Teacher
+            <ArrowForwardIcon />
           </Button>
         </Toolbar>
       </AppBar>

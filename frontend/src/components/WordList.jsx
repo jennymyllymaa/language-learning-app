@@ -14,6 +14,8 @@ import { Typography } from "@mui/material";
 
 function WordList(props) {
 
+
+  //Columns and rows for the table
   const columns = [
     {
       field: "id",
@@ -74,11 +76,6 @@ function WordList(props) {
     },
   ];
 
-  const onButtonClick = (e, row) => {
-    e.stopPropagation();
-    deleteRow(row);
-  };
-
   const rows = props.words.map((word) => ({
     id: word.id,
     tag: word.tag,
@@ -88,6 +85,12 @@ function WordList(props) {
     german: word.german,
     italian: word.italian,
   }));
+
+  //onClick function for the delete button on every row
+  const onButtonClick = (e, row) => {
+    e.stopPropagation();
+    deleteRow(row);
+  };
 
   // Function to delete a word on the backend
   const deleteRow = async (row) => {
@@ -103,13 +106,16 @@ function WordList(props) {
     }
   };
 
+  //Function that sends updatedRow for the correct function
+  // and return the row which is necessary for the processRowUpdate
   const saveWordUpdateToBackend = (updatedRow) => {
     const updatedWord = updateWord(updatedRow);
     return updatedWord;
   };
 
+  //Necessary function for the autogrid
   const handleProcessRowUpdateError = (error) => {
-    console.log(error);
+    console.error(error);
   };
 
   // Function to update a word on the backend
@@ -131,8 +137,10 @@ function WordList(props) {
     }
   };
 
+  //State for the dialog
   const [open, setOpen] = useState(false);
 
+  //Dialog open and close functions
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -141,6 +149,7 @@ function WordList(props) {
     setOpen(false);
   };
 
+  //Function that saves the added word to database
   const saveNewWordToBackend = async (word) => {
     console.log(word);
     try {
@@ -168,7 +177,7 @@ function WordList(props) {
       <Typography variant="h5" sx={{ margin: "20px" }}>
         Words
       </Typography>
-      <div style={{ height: 500, width: "100%" }}>
+      <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -189,7 +198,7 @@ function WordList(props) {
         />
       </div>
       <Box>
-        <Button onClick={handleClickOpen}>dialogi</Button>
+        <Button onClick={handleClickOpen}>Add word</Button>
       </Box>
       <Dialog
         open={open}

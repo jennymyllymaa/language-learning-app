@@ -8,6 +8,7 @@ import CurrentTest from "./CurrentTest";
 import EditTest from "./EditTest";
 import WordList from "./WordList";
 import { useNavigate } from "react-router-dom";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 function TeacherView(props) {
   const navigate = useNavigate();
@@ -98,9 +99,7 @@ function TeacherView(props) {
               }}
             >
               Student
-            </Button>
-            <Button variant="contained" color="info">
-              Log out
+              <ArrowForwardIcon />
             </Button>
           </Stack>
         </Toolbar>
