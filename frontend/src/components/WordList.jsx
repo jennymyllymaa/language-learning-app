@@ -91,7 +91,6 @@ function WordList(props) {
 
   // Function to delete a word on the backend
   const deleteRow = async (row) => {
-    console.log(row);
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/api/words/${row.id}`, {
         method: "DELETE",
@@ -109,8 +108,8 @@ function WordList(props) {
     return updatedWord;
   };
 
-  const handleProcessRowUpdateError = (parametri) => {
-    console.log(parametri);
+  const handleProcessRowUpdateError = (error) => {
+    console.log(error);
   };
 
   // Function to update a word on the backend

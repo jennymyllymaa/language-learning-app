@@ -74,7 +74,7 @@ function App() {
   const propsToStudentView = {
     fromLanguage,
     toLanguage,
-    currentTest,
+    currentTestWords,
   };
 
   return (

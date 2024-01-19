@@ -1,12 +1,6 @@
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import { useState, useEffect } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
@@ -17,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 function TeacherView(props) {
   const navigate = useNavigate();
+  //State that keeps track which component is on display
   const [showing, setShowing] = useState("currentTest");
 
   //Function that sets selected question language to state and removes the language from answer language options
@@ -24,12 +19,12 @@ function TeacherView(props) {
     props.setFromLanguage(language);
   };
 
+  //Function that changes answer language
   const changeToLanguage = (language) => {
     props.setToLanguage(language);
   };
 
-  //Function that uses languages to fetch available wordpairs from backend and set those to availableWords
-
+  //Needed props for different components
   const propsToEditTest = {
     changeFromLanguage,
     changeToLanguage,
