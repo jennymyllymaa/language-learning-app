@@ -100,11 +100,24 @@ function CurrentTest(props) {
   const checkAvailableWords = () => {
     const firstLanguage = props.fromLanguage.toLowerCase();
     const secondLanguage = props.toLanguage.toLowerCase();
+    console.log(props.currentTestWords);
     let wordsArr = props.words.filter((wordData) => {
       return (
         wordData[firstLanguage] !== null && wordData[secondLanguage] !== null
       );
     });
+
+    //Filter out words that already are in the current test
+    const existingWordsIds = props.currentTestWords.map((word) => word.id);
+    wordsArr = wordsArr.filter((wordData) => {
+      for (let i = 0; i < existingWordsIds.length; i++) {
+        if (wordData.id === existingWordsIds[i]) {
+          return false; // Exludes this word
+        }
+      }
+      return true;
+    });
+
     // Add label to the array for Autocomplete component
     // Add Secondary to help word recovery
     wordsArr = wordsArr.map((wordData) => {
@@ -129,7 +142,6 @@ function CurrentTest(props) {
     });
     //Empty pickedWord state
     setPickedWord("");
-    console.log(row);
 
     try {
       await fetch(`${import.meta.env.VITE_API_URL}/api/tests/`, {
