@@ -1,10 +1,4 @@
 /**
- * Configuration setup for environment variables.
- * Loads environment variables from the specified file.
- */
-require("dotenv").config();
-
-/**
  * Express application for the backend server.
  */
 const express = require("express");
