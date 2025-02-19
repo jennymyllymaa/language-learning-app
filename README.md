@@ -16,6 +16,8 @@ This is a school project that was developed for a school backend course.
 
 This is my first fullstack project.
 
+EDIT: Unfortunately the school database has been shut down and the site is no longer functional.
+
 ## Features
 
 -   Supported languages at the moment are English, Finnish, Swedish, German and Italian.
